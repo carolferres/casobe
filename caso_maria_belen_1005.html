@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caso Maria Belen — Análise Patrimonial</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #f5f3ee;
+    --bg2: #eeece6;
+    --bg3: #e5e2da;
+    --text: #1a1915;
+    --text2: #3a3833;
+    --text3: #8a8780;
+    --accent: #c0392b;
+    --accent2: #e74c3c;
+    --accent-bg: #fdf0ef;
+    --warn: #d4840a;
+    --warn-bg: #fef9f0;
+    --info: #1a5fa8;
+    --info-bg: #eef4fc;
+    --ok: #1a7a4a;
+    --ok-bg: #eef7f2;
+    --border: #d8d5cc;
+    --border2: #c8c4bb;
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; min-height: 100vh; }
+
+  header { background: var(--text); color: var(--bg); padding: 40px 48px 32px; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.06); }
+  .header-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 10px; }
+  header h1 { font-family: var(--serif); font-size: 36px; font-weight: 400; color: #fff; line-height: 1.1; margin-bottom: 6px; }
+  header h1 em { font-style: italic; color: rgba(255,255,255,0.55); }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 16px; font-family: var(--mono); }
+  .header-badges { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+  .badge { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; border: 1px solid; }
+  .badge-red { color: #f1948a; border-color: rgba(241,148,138,0.3); background: rgba(241,148,138,0.08); }
+  .badge-gray { color: rgba(255,255,255,0.35); border-color: rgba(255,255,255,0.12); }
+
+  nav:not(.sidebar-nav) { display: none; }
+
+  .sidebar { width: 240px; min-width: 240px; background: var(--text); position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
+  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .sidebar-logo { font-family: var(--serif); font-size: 15px; color: #fff; line-height: 1.3; }
+  .sidebar-logo em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .sidebar-sub { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 6px; letter-spacing: 0.06em; }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .sidebar-group { padding: 8px 20px 4px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+  .sidebar-nav a { display: block; font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; padding: 9px 20px; border-left: 2px solid transparent; transition: color 0.15s, border-color 0.15s, background 0.15s; line-height: 1.3; }
+  .sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .sidebar-nav a.active { color: #fff; border-left-color: var(--accent); background: rgba(192,57,43,0.12); }
+  .sidebar-nav a.highlight { color: #f1948a; font-weight: 500; }
+  .sidebar-nav a.highlight.active { border-left-color: #f1948a; background: rgba(241,148,138,0.1); }
+  .content { margin-left: 240px; flex: 1; min-width: 0; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 48px 80px; }
+  @media (max-width: 768px) { .sidebar { display: none; } .content { margin-left: 0; } main { padding: 24px 20px 60px; } }
+  .situacao-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  @media (max-width: 700px) { .situacao-grid { grid-template-columns: 1fr; } }
+  .crime-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px; border-top: 3px solid var(--accent); }
+  .crime-card.warn { border-top-color: var(--warn); }
+  .crime-card.info { border-top-color: var(--info); }
+  .crime-icon { font-size: 22px; margin-bottom: 10px; }
+  .crime-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .crime-body { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .crime-lei { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+  .section { margin-bottom: 48px; }
+  .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--text3); min-width: 24px; }
+  .section-title { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--text); }
+  .section-divider { flex: 1; height: 1px; background: var(--border); margin-left: 8px; align-self: center; }
+
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px; margin-bottom: 10px; }
+  .card-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .card-body { font-size: 13px; color: var(--text2); line-height: 1.65; }
+  .card-body strong { color: var(--text); font-weight: 500; }
+  .card-danger { border-left: 3px solid var(--accent); background: var(--accent-bg); }
+  .card-warn { border-left: 3px solid var(--warn); background: var(--warn-bg); }
+  .card-info { border-left: 3px solid var(--info); background: var(--info-bg); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .valor-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; }
+  .valor-label { font-family: var(--mono); font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .valor-num { font-family: var(--serif); font-size: 28px; color: var(--text); line-height: 1; }
+  .valor-num.red { color: var(--accent); }
+  .valor-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  .tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid; }
+  .tag-red { color: var(--accent); border-color: rgba(192,57,43,0.25); background: var(--accent-bg); }
+  .tag-warn { color: var(--warn); border-color: rgba(212,132,10,0.25); background: var(--warn-bg); }
+  .tag-info { color: var(--info); border-color: rgba(26,95,168,0.25); background: var(--info-bg); }
+  .tag-gray { color: var(--text3); border-color: var(--border); background: var(--bg2); }
+
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--border2); }
+  .tl-item { position: relative; margin-bottom: 16px; }
+  .tl-dot { position: absolute; left: -21px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--border2); border: 2px solid var(--bg); }
+  .tl-dot.red { background: var(--accent); }
+  .tl-date { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-bottom: 2px; }
+  .tl-text { font-size: 13px; color: var(--text2); }
+  .tl-text strong { color: var(--text); font-weight: 500; }
+
+  .duvida { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .duvida:last-child { border-bottom: none; }
+  .duvida-num { font-family: var(--mono); font-size: 11px; color: var(--text3); min-width: 20px; padding-top: 1px; }
+  .duvida-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .duvida-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  .status-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .status-row:last-child { border-bottom: none; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-red { background: var(--accent); }
+  .dot-warn { background: var(--warn); }
+  .dot-gray { background: var(--text3); }
+  .dot-green { background: var(--ok); }
+  .status-label { font-size: 13px; color: var(--text2); flex: 1; }
+  .status-tag { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+  footer { text-align: center; padding: 32px 48px; font-family: var(--mono); font-size: 11px; color: var(--text3); border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Caso <em>Maria Belen</em></div>
+    <div class="sidebar-sub">Análise patrimonial · uso restrito</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-group">Situação</div>
+    <a href="#situacao" class="highlight active">00 · Situação atual</a>
+    <div class="sidebar-group">Análise</div>
+    <a href="#processo">01 · Status do processo</a>
+    <a href="#patrimonio">02 · Patrimônio identificado</a>
+    <a href="#provas">03 · Provas documentais</a>
+    <a href="#ativos">04 · Ativos para partilha</a>
+    <a href="#itau">05 · Itaú — Conta de Maria Belen</a>
+    <a href="#bmp">06 · BMP — Conta de Luciano</a>
+    <a href="#mafra">07 · Mafra FIP + AG42 FIDC</a>
+    <a href="#ir">08 · IR e estrutura patrimonial</a>
+    <div class="sidebar-group">Referência</div>
+    <a href="#timeline">09 · Linha do tempo</a>
+    <a href="#duvidas">10 · Dúvidas pendentes</a>
+    <a href="#status">11 · Status das pastas</a>
+  </nav>
+</div>
+
+<div class="content">
+
+<header>
+  <div class="header-label">Análise patrimonial — uso restrito</div>
+  <h1>Caso <em>Maria Belen</em></h1>
+  <div class="header-badges">
+    <span class="badge badge-red">Dissipação patrimonial</span>
+    <span class="badge badge-red">Ocultação de bens</span>
+    <span class="badge badge-red">Violência patrimonial</span>
+    <span class="badge badge-gray">Comunhão parcial · casamento 16/10/2010 · separação 07/2023</span>
+  </div>
+  <div class="header-sub">Atualizado em: <span id="data-atual"></span> &nbsp;·&nbsp; Processo: Ação judicial em litígio &nbsp;·&nbsp; Divórcio: 28/01/2025</div>
+</header>
+
+<nav style="display:none">
+  <a href="#processo" class="active">Processo</a>
+  <a href="#patrimonio">Patrimônio</a>
+  <a href="#provas">Provas</a>
+  <a href="#ativos">Ativos</a>
+  <a href="#itau">Itaú</a>
+  <a href="#ir">IR / Empresas</a>
+  <a href="#timeline">Linha do tempo</a>
+  <a href="#duvidas">Dúvidas</a>
+  <a href="#status">Status pastas</a>
+</nav>
+
+<main>
+
+  <!-- SITUAÇÃO ATUAL -->
+  <section class="section" id="situacao">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <span class="section-title">Situação atual e enquadramento</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card card-danger" style="margin-bottom:16px">
+      <div class="card-title">Resumo executivo</div>
+      <div class="card-body">Este estudo analisa o caso de divórcio litigioso entre <strong>Maria Belen Perez Ferres Bressan</strong> e seu ex-marido <strong>Luciano Bressan</strong>, casados em regime de comunhão parcial de bens desde outubro de 2010. A separação de corpos ocorreu em julho de 2023 e o divórcio foi decretado em janeiro de 2025. A partilha de bens permanece em litígio.<br><br>
+      A análise dos documentos disponíveis revela um padrão sistemático de controle financeiro, esvaziamento patrimonial e dissimulação de bens comuns praticados por Luciano Bressan. O patrimônio comum identificado supera <strong>R$ 6,5 milhões</strong> — valor reconhecido pelo próprio Luciano em conversa de WhatsApp em março de 2024. Dois meses depois, Luciano obteve por manipulação as credenciais de acesso à conta de investimentos de Maria Belen (token da XP, via WhatsApp em 16/05/2024) e esvaziou as contas. O ciclo completo está documentado em três camadas independentes: WhatsApp + extratos bancários + extrato BMP.</div>
+      <div class="tags"><span class="tag tag-red">Patrimônio mínimo reconhecido: R$ 6,5M</span><span class="tag tag-red">Esvaziamento documentado: ≈ R$ 3,2M</span></div>
+    </div>
+
+    <div class="situacao-grid">
+      <div class="crime-card">
+        <div class="crime-icon">💸</div>
+        <div class="crime-title">Dissipação patrimonial</div>
+        <div class="crime-body">Esvaziamento sistemático da conta XP (pico R$ 3,6M → zero em 24 meses). Token da XP obtido por manipulação em 16/05/2024. Três Pix de R$ 290.000 enviados a Luciano em 3 dias. CDB resgatado antecipadamente após 49 dias e transferido integralmente a Luciano. Pers Black com faturas de até R$ 46.162/mês pagos pela conta de Maria Belen.</div>
+        <div class="crime-lei">Lei Maria da Penha art. 7º, V · CC art. 1.780 · CP art. 171</div>
+      </div>
+      <div class="crime-card warn">
+        <div class="crime-icon">🏦</div>
+        <div class="crime-title">Ocultação de bens</div>
+        <div class="crime-body">Dois CCVs de fundos assinados 13 meses antes da separação (Mafra FIP + AG42 FIDC, total R$ 471.647) com CPF de Maria Belen incorreto em ambos. Rede de empresas com CNPJs sequenciais (GAD/Marechal) absorvendo recursos. Patrimônio em CIA AFLB e CIA Vinhos declarado a valor histórico irreal. Estrutura offshore documentada em rascunhos (Bahamas + Delaware + Planner).</div>
+        <div class="crime-lei">CC art. 167 (simulação) · Lei 7.492/86 art. 22 (evasão) · Lei 9.613/98 (lavagem)</div>
+      </div>
+      <div class="crime-card info">
+        <div class="crime-icon">🔒</div>
+        <div class="crime-title">Violência patrimonial</div>
+        <div class="crime-body">Controle digital total via e-mail criado por Luciano (bressan.mbpf@gmail.com) em Itaú, XP, Receita Federal e B3. Acesso negado a Maria Belen às próprias contas. Cartão Black de Maria Belen (faturas até R$ 46k) com adicional em nome de Luciano — nomeado pelo banco. Viagens internacionais, médicos e vestuário de Luciano pagos pelo cartão de Maria Belen.</div>
+        <div class="crime-lei">Lei Maria da Penha art. 7º, IV · Lei 11.340/2006</div>
+      </div>
+    </div>
+
+    <div class="card card-info" style="margin-bottom:10px">
+      <div class="card-title">Como usar este documento</div>
+      <div class="card-body">
+        Este é um <strong>documento de consulta preparatório</strong> — não substitui laudo pericial nem pode ser apresentado diretamente em juízo como prova. Serve para orientar a estratégia jurídica e identificar onde estão as provas.<br><br>
+        As seções de análise apresentam o esquema identificado e os achados por fonte documental. A seção de Dúvidas lista os pontos que ainda requerem investigação e as diligências recomendadas. As provas efetivas são os documentos originais — extratos bancários, faturas, mensagens de WhatsApp, contratos — referenciados ao longo do documento.<br><br>
+        <strong>Documento complementar:</strong> o parecer formal em Word contém a análise estruturada com recomendações de diligências, avaliações periciais necessárias e orientações sobre o material sensível — deve ser lido em conjunto com este documento.
+      </div>
+      <div style="margin-top:14px">
+        <a id="btn-parecer" href="https://carolferres.github.io/casobe/parecer_maria_belen.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--text);color:#fff;border-radius:4px;font-size:13px;font-family:var(--sans);font-weight:500;text-decoration:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Baixar parecer formal (PDF)
+        </a>
+      </div>
+      <div class="tags">
+        <span class="tag tag-info">Uso restrito — orientação estratégica</span>
+        <span class="tag tag-warn">As provas são os documentos originais</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">Documentos e pastas analisados</div>
+      <div class="card-body">
+        <strong>Contas bancárias e investimentos</strong><br>
+        XP Investimentos — conta 5649287, completo | Itaú ag. 9652 cc. 04297-0 (Maria Belen) — out/2022 a ago/2024 completo | Itaú ag. 9652 cc. 03600-6 (Luciano) — jan/dez 2024 | BMP — conta de Luciano jan/2024–nov/2025 | B3 — extrato mai/2024 parcial<br><br>
+        <strong>Faturas de cartão</strong><br>
+        Pers Black 3608-6931 — set/2023 a mai/2024 (6 faturas). Luciano nomeado pelo banco como portador do adicional final 0531<br><br>
+        <strong>Fundos de investimento</strong><br>
+        Mafra FIP Multiestratégia (CNPJ 40.902.514) — CCV + posição cotistas | AG42 FIDC NP (CNPJ 28.065.338) — CCV + posição cotistas + ficha cadastral Trustee | Necton FIP Multiestratégia — IR 2021 | FIDC AG42 NP Planner — IR 2021<br><br>
+        <strong>Declarações de IR</strong><br>
+        Luciano Bressan — exercício 2022 (ano-calendário 2021) | Maria Belen — exercício 2022 (ano-calendário 2021)<br><br>
+        <strong>Documentos oficiais</strong><br>
+        CCS Banco Central (15 instituições no CPF de Maria Belen) | Certidão de casamento (comunhão parcial confirmada) | Matrícula imóvel AP91 Rua Michigan (titularidade conjunta confirmada) | Extrato financiamento Santander (saldo devedor R$ 422.352 ago/2023) | Informação de testamento Afonso Bressan Filho<br><br>
+        <strong>WhatsApp e comunicações</strong><br>
+        Grupo "Caso Maria Belen" | Conversas Maria Belen × Luciano (out/2022, abr/2023, mar/2024, mai/2024, jun/2024, ago/2023, set/2024) | Token XP 16/05/2024 (prova direta do esvaziamento)<br><br>
+        <strong>Documentos avulsos da papelada de Luciano</strong><br>
+        Roteiro de viagem LIQ Corp (confirma cargo CFO) | Rascunhos manuscritos estrutura offshore FIP Nilai (Bahamas + Delaware + Planner) | Planilha de repasses eleitorais Contax 2014 (R$ 11,8M)<br><br>
+        <strong>Outros</strong><br>
+        ATMA Participações — Relatório de Recuperação Judicial | Proposta de honorários Martinelli & Rigoni (mai/2024) | Planilha despesas filhos | Informação de testamento
+      </div>
+      <div class="tags">
+        <span class="tag tag-gray">FEED — aguardando organização</span>
+      </div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Declarações de IR de Luciano (2022, 2023 e 2024) — por que são importantes</div>
+      <div class="card-body">
+        Temos apenas o IR de Luciano do exercício 2022 (ano-calendário 2021). Os três anos seguintes nunca foram obtidos — e são os mais relevantes para a partilha.<br><br>
+        <strong>IR 2022 (ano-calendário 2021):</strong> mostraria o patrimônio de Luciano no ano em que o CDB Itaú de R$ 1.013.903 e o FIDC Planner de R$ 524.293 zeraram sem explicação, e em que a conta XP de Maria Belen foi aberta. Onde foi esse dinheiro?<br><br>
+        <strong>IR 2023 (ano-calendário 2022):</strong> mostraria o patrimônio no ano em que os dois CCVs (Mafra FIP + AG42 FIDC) foram assinados em junho — e se as cotas foram declaradas como saindo do patrimônio de Luciano. Também mostraria se houve ganho de capital declarado pela cessão.<br><br>
+        <strong>IR 2024 (ano-calendário 2023):</strong> mostraria o patrimônio no ano da separação de corpos (jul/2023) — o marco que define o que entra na partilha. Também mostraria se os R$ 1.010.000 recebidos de Maria Belen em mai/jun/2024 foram declarados como receita.<br><br>
+        Os três IRs precisam ser obtidos via <strong>ofício judicial à Receita Federal</strong> com quebra de sigilo fiscal.
+      </div>
+      <div class="tags">
+        <span class="tag tag-warn">Ofício judicial à Receita Federal — quebra de sigilo fiscal</span>
+      </div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Documentos não obtidos — por que são urgentes</div>
+      <div class="card-body">
+        <strong>Extratos Santander de Maria Belen (agência 1755) — urgência máxima</strong><br>
+        Nos extratos do Itaú, saíram aproximadamente R$ 517.000 em Pix para um destinatário chamado "MARIA B" ao longo de 2022–2023. Em outubro de 2022 chegou uma entrada identificada como "TED 033.1755 MARIA BELEN" — banco 033 é o Santander, agência 1755. "MARIA B" é confirmado como a própria conta de Maria Belen no Santander, controlada por Luciano. O que ainda não sabemos: para onde saía o dinheiro dessa conta Santander? Essa conta era o próximo elo da cadeia — recebia os R$ 517.000 e redistribuía para outros destinos ainda não identificados. Sem esses extratos, há meio milhão de reais sem destino final mapeado.<br><br>
+        <strong>Extratos BTG — três contas nunca acessadas</strong><br>
+        Em dezembro de 2022 chegou na conta Itaú de Maria Belen uma TED de R$ 479.869 identificada como banco 208 (BTG Pactual) — a maior entrada pontual de toda a série. Maria Belen tentou acessar as contas BTG em junho de 2024 e nunca conseguiu. As três contas foram abertas simultaneamente em setembro de 2022 — padrão atípico de abertura coordenada por terceiro. O que ainda não sabemos: quanto havia nessas contas, para onde foi o dinheiro, e se ainda há saldo remanescente. A TED de R$ 479.869 que saiu do BTG pode ser apenas uma fração do que havia lá.<br><br>
+        Ambos precisam de <strong>ofício judicial com quebra de sigilo bancário</strong>.
+      </div>
+      <div class="tags">
+        <span class="tag tag-red">Santander — elo intermediário de R$ 517k não rastreado</span>
+        <span class="tag tag-red">BTG — até R$ 479k+ sem origem conhecida</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="section" id="processo">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Status do processo</span>
+      <div class="section-divider"></div>
+    </div>
+    <div class="grid2">
+      <div class="card card-danger">
+        <div class="card-title">Situação atual</div>
+        <div class="card-body"><strong>Ação judicial em litígio.</strong> Definidos provisoriamente apenas alimentos e convivência. Partilha de bens ainda não resolvida.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Datas-chave</div>
+        <div class="card-body">
+          Casamento civil: <strong>16/10/2010</strong><br>
+          Separação de corpos: <strong>07/2023</strong><br>
+          Divórcio: <strong>28/01/2025</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card card-warn">
+      <div class="card-title">Acordo de R$ 700.000 — não assinado</div>
+      <div class="card-body">Em set/2024 havia proposta de R$ 700.000 + imóvel para Maria Belen, com Luciano assumindo as dívidas trabalhistas. O acordo <strong>não foi assinado</strong>. Maria Belen trocou de advogado (Simões Abrão → Veridiana Fraga) por perfil mais agressivo. <strong>Advogada atual: Veridiana Fraga.</strong></div>
+      <div class="tags"><span class="tag tag-red">Acordo não assinado</span><span class="tag tag-info">Advogada: Veridiana Fraga</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">WhatsApp 19/03/2024 — Luciano reconhece patrimônio de R$ 6,5M+</div>
+      <div class="card-body">Em conversa informal dois meses antes do esvaziamento, Luciano espontaneamente revela a estrutura da proposta de partilha:<br><br>
+      <ul style="margin:0 0 12px 18px;padding:0;line-height:1.8">
+        <li>Para Maria Belen: apartamento avaliado em <strong>R$ 4.000.000</strong> + R$ 500.000 em outros ativos</li>
+        <li>Para Luciano: R$ 2.000.000 + dívida do financiamento (R$ 422.352)</li>
+        <li><strong>Patrimônio total reconhecido por Luciano: ≈ R$ 6,5 milhões</strong></li>
+      </ul>
+      <strong>Declarações falsas de Luciano verificáveis na mesma conversa:</strong>
+      <ul style="margin:8px 0 12px 18px;padding:0;line-height:1.8">
+        <li>"Não tenho conta em banco" — contradita por Itaú Personnalité, BMP, XP, Santander, BTG, AG42, Mafra, Necton</li>
+        <li>"A empresa não vale nada" — CIA AFLB e CIA Vinhos declaradas no próprio IR de Luciano</li>
+        <li>"Não existem ações da empresa" — 5.000 ações AFLB e 108.500 quotas CIA Vinhos declaradas no IR</li>
+        <li>"As que existem estão na XP em nome de Maria Belen" — sugere que Luciano colocou ativos em nome de Maria Belen deliberadamente — interpretação a ser avaliada pela advogada</li>
+      </ul>
+      <strong>Sequência temporal relevante:</strong> proposta não aceita por Maria Belen em mar/2024 → esvaziamento das contas iniciado em mai/2024, dois meses depois. A proximidade temporal é documentada; a relação causal entre os dois eventos é uma inferência a ser avaliada pela advogada.</div>
+      <div class="tags"><span class="tag tag-red">Confissão de patrimônio R$ 6,5M+</span><span class="tag tag-red">Declarações falsas verificáveis</span></div>
+    </div>
+  </section>
+
+  <!-- PATRIMÔNIO -->
+  <section class="section" id="patrimonio">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Patrimônio identificado</span>
+      <div class="section-divider"></div>
+    </div>
+    <div class="grid2">
+      <div class="valor-card">
+        <div class="valor-label">Pico XP — fev/2023</div>
+        <div class="valor-num">R$ 3.671.057</div>
+        <div class="valor-sub">100% investido, no nome de Maria Belen</div>
+      </div>
+      <div class="valor-card">
+        <div class="valor-label">Saldo XP — mai/2024</div>
+        <div class="valor-num red">R$ 0,00</div>
+        <div class="valor-sub">Esvaziada por retiradas sistemáticas</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Fluxo de saída da XP</div>
+      <div class="card-body">Quase todas as TEDs saíram para <strong>conta Itaú de Maria Belen (ag. 9652, cc. 04297-0)</strong> — controlada por Luciano via e-mail bressan.mbpf@gmail.com criado por Luciano. Uma saída de R$ 543.869 em 27/03/2024 foi para <strong>Santander agência 1755</strong>, conta de Luciano na mesma agência de Maria Belen. Saídas totais nos 12 meses abr/2023–mar/2024: <strong>R$ 2.223.240</strong>.</div>
+      <div class="tags"><span class="tag tag-red">Dissipação documentada</span><span class="tag tag-info">Extratos oficiais XP</span></div>
+    </div>
+    <div class="card card-danger">
+      <div class="card-title">Comprovante direto — R$ 290.000 para o CPF de Luciano</div>
+      <div class="card-body">Pix de <strong>20/05/2024</strong> saindo da conta Itaú de Maria Belen (ag. 9652, cc 4297-0) diretamente para <strong>Luciano Bressan</strong>, CPF 023.310.169-17, conta BMP SCMEPP. Nome e CPF explícitos no comprovante oficial Itaú.</div>
+      <div class="tags"><span class="tag tag-red">Prova direta</span></div>
+    </div>
+  </section>
+
+  <!-- PROVAS -->
+  <section class="section" id="provas">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Provas documentais</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">E-mail bressan.mbpf@gmail.com — Banco Central</div>
+      <div class="card-body">Relatório oficial do Banco Central (07/06/2024) lista esse e-mail como chave Pix da conta Itaú de Maria Belen. Sobrenome de Luciano + iniciais de Maria Belen. Maria Belen nunca teve acesso. <strong>O mesmo e-mail aparece como e-mail cadastral na declaração de IR de Maria Belen</strong> — Luciano também controlava o acesso de Maria Belen ao portal da Receita Federal.</div>
+      <div class="tags"><span class="tag tag-red">Prova forte</span><span class="tag tag-info">Banco Central + Receita</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Transferências por telefone sem procuração</div>
+      <div class="card-body">Gerente do Itaú confirmou que movimentações foram feitas por telefone, possivelmente por alguém se passando por Maria Belen. Maria Belen declarou no WhatsApp: "O Itaú e a XP não têm procurações minhas." Gravações das ligações nunca foram solicitadas — ainda podem ser requeridas (prazo de guarda: 5 anos).</div>
+      <div class="tags"><span class="tag tag-red">Prova forte</span><span class="tag tag-warn">Gravações ainda não solicitadas</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Cartão Personnalité Black — dois cartões, ambos pagos por Maria Belen</div>
+      <div class="card-body">O <strong>Pers Black 3608-6931</strong> é o cartão de Maria Belen, com adicional em nome de Luciano (final 0531 — identificado pelo próprio banco). O <strong>Itaú Black 3101-4478</strong> é o cartão próprio de Luciano, com faturas de R$ 1.300–1.400/mês pagas por Maria Belen via Pix da conta de Maria Belen para a conta de Luciano. Valores do Pers Black: R$ 46.162 mai/23 (pico), R$ 45.084 jul/23, R$ 37.869 ago/23, R$ 32.444 set/23, R$ 29.098 out/23. Em todos esses meses, 56-70% dos gastos foram do cartão adicional de Luciano.</div>
+      <div class="tags"><span class="tag tag-red">Prova de controle</span><span class="tag tag-red">Banco nomeia Luciano como portador adicional</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Documentos avulsos — Luciano confirmado como CFO da LIQ Corp em 2019</div>
+      <div class="card-body">Roteiro de viagem da LIQ Corp em 17/12/2019 encontrado na papelada identifica: passageiro Luciano Bressan, centro de custo "Direx CFO — 4755000000", reunião com a Oi em São Paulo/Rio. Confirma cargo de Diretor Financeiro (CFO) — o principal executivo financeiro da empresa. Incompatível com todas as alegações de limitação financeira feitas no WhatsApp de mar/2024 ("não tenho salário de R$ 100k no mercado").</div>
+      <div class="tags"><span class="tag tag-red">CFO confirmado — contradiz alegações de limitação financeira</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Documentos avulsos — Estrutura offshore completa documentada em rascunho manuscrito</div>
+      <div class="card-body">Dois rascunhos manuscritos encontrados na papelada descrevem a estrutura completa:<br><br>
+      <strong>PF brasileira → Fundo Individual Bahamas (Commonwealth) → Fundo Listado Bolsa Bahamas → LLC Delaware → INR via Planner → FIP Nilai → LIQ Corp / ATMA</strong><br><br>
+      Elementos confirmados: pessoa física brasileira remete para fundo offshore nas Bahamas com sigilo bancário; fundo listado na bolsa das Bahamas serve como intermediário; LLC em Delaware entra no Brasil como Investidor Não Residente; Planner operacionaliza o retorno como INR. Custo estrutural: 0,6m + IOF por operação. A Planner aparece explicitamente — a mesma que administra o AG42 FIDC e o Mafra FIP pessoais de Luciano.<br><br>
+      Configura potencialmente: <strong>evasão de divisas, lavagem de dinheiro e round-tripping</strong> — dinheiro brasileiro sai e retorna como capital estrangeiro.<br><br>
+      <strong>⚠️ ATENÇÃO — USO ESTRATÉGICO SENSÍVEL:</strong> Esses documentos envolvem potencialmente crimes além do divórcio e terceiros. A nova advogada deve avaliar com suporte de advogado criminalista antes de qualquer uso. </div>
+      <div class="tags"><span class="tag tag-red">Estrutura offshore documentada — Bahamas + Delaware + Planner</span><span class="tag tag-warn">Avaliar com criminalista antes de usar</span></div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Documentos avulsos — Planilha de repasses eleitorais R$ 11,8M (2014)</div>
+      <div class="card-body">Planilha encontrada na papelada documenta repasses da Contax a múltiplos partidos em 2014 (PSB/Marina Silva R$ 1,5M, PSDB R$ 2M, PT R$ 1,5M, PMDB R$ 1M, outros) totalizando R$ 11,8M. Se não declarados nas prestações de contas eleitorais oficiais, configura caixa dois eleitoral. Maria Belen tem posse deste documento. <strong>Atenção: este documento envolve terceiros e questões que vão além do divórcio. A nova advogada deve avaliar cuidadosamente como usar este material — há implicações estratégicas e riscos que precisam de orientação jurídica especializada antes de qualquer uso.</strong></div>
+      <div class="tags"><span class="tag tag-warn">Material sensível — avaliar estratégia com advogada antes de usar</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">16/05/2024 — Luciano obtém token da XP por manipulação</div>
+      <div class="card-body">Via WhatsApp em 16/05/2024, Luciano pede ativamente as credenciais da conta XP de Maria Belen: "Consegue me passar a senha e token da XP?" Maria Belen pergunta "pra que vai mexer nessa conta?" e Luciano responde "porque o dinheiro está lá, precisa pagar as contas." Maria Belen fornece o token (81428). No dia seguinte, 17/05/2024, chegaram as duas TEDs da XP de R$ 968.766 e três Pix de R$ 290.000 cada foram enviados a Luciano nos dias seguintes. <strong>Esta é a prova mais direta de que o esvaziamento foi feito com acesso obtido por manipulação, não por acesso legítimo.</strong></div>
+      <div class="tags"><span class="tag tag-red">Prova direta do esvaziamento — WhatsApp + extratos</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">04/03/2024 — Luciano nega acesso de Maria Belen à própria conta</div>
+      <div class="card-body">Maria Belen pede acesso à conta Itaú que estava em seu nome: "Quero organizar as contas que estão no meu nome." Luciano responde tratando a conta como pessoal e ameaça encerrar caso Maria Belen acesse. Em seguida: "Eu preciso pagar contas este mês e meu dinheiro está com você." Luciano confirma indiretamente que controlava o dinheiro de Maria Belen. Configuração clássica de controle financeiro abusivo documentada em texto.</div>
+      <div class="tags"><span class="tag tag-red">Controle financeiro — admissão direta</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Minuta do advogado de Luciano — veículo de R$ 600.000 não mapeado</div>
+      <div class="card-body">Documento interno da defesa de Luciano lista como argumento a rebater: "Luciano adquiriu veículo de R$ 600.000 recentemente." Este veículo não aparece em nenhum documento anterior analisado. Se adquirido com recursos comuns ou após a separação com recursos que eram do casal, é bem partilhável. A mesma minuta confirma: herança recebida do pai (Afonso Bressan Filho), remuneração em ações de empresa, e que as crianças passam 95% do tempo com a mãe.</div>
+      <div class="tags"><span class="tag tag-red">Veículo R$ 600k não identificado — localizar urgente</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Proporção de uso do cartão adicional por Luciano — por fatura</div>
+      <div class="card-body">A fatura do Itaú nomeia explicitamente <strong>"LUCIANO BRESSAN"</strong> como portador do cartão adicional final 0531. Proporção do uso por Luciano nas faturas analisadas:<br><br>
+        Set/23: Luciano usou <strong>56%</strong> (R$ 18.320 de R$ 32.444)<br>
+        Out/23: Luciano usou <strong>70%</strong> (R$ 20.487 de R$ 29.097)<br>
+        Nov/23: Luciano usou <strong>61%</strong> (R$ 15.069 de R$ 24.858)<br>
+        Mar/24: Luciano usou <strong>64%</strong> (R$ 11.493 de R$ 18.057)<br>
+        Abr/24: Luciano usou <strong>92%</strong> (R$ 30.473 de R$ 33.184)<br>
+        Mai/24: Luciano usou <strong>69%</strong> (R$ 11.756 de R$ 17.104)<br><br>
+        Maria Belen consumiu principalmente: farmácia, streaming, material escolar, dentista, academia de tênis. Luciano consumia restaurantes, viagens, roupas, polimento de carro e tratamentos médicos pessoais (Hospital Sírio Libanês: R$ 1.418 em abr/24; Hospital Einstein: R$ 725 em out/23, R$ 1.521 em mar/24, R$ 1.587 em mai/24).
+      </div>
+      <div class="tags"><span class="tag tag-red">Prova direta — banco nomeia Luciano</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Curitiba como segunda residência — documentada fatura a fatura</div>
+      <div class="card-body">Viagens a Curitiba no cartão de Luciano em: set/23, out/23, nov/23, mar/24, abr/24 e mai/24 — pelo menos uma por mês. Sempre o mesmo posto (Auto Posto Tarumã), mesma rota (BR-116: Registro, Miracatu, Pariquera-Açu), mesmos restaurantes. Spotify registrado em Curitiba mês a mês. Adega Brasil distribuidora em Pinhais/PR comprou R$ 2.051 em bebidas em abr/24. Box de garagem em Curitiba declarado no IR de Luciano. Pagamentos "PM Curitib" recorrentes nos extratos bancários.<br><br><strong>Contexto:</strong> Luciano é natural de Curitiba e sua família (mãe Elizabeth Maio Fernandes Bressan e irmão Rodrigo Afonso Bressan) reside na região do Paraná. As viagens mensais a Curitiba são consistentes com visitas familiares regulares — o que contextualiza vários gastos identificados na cidade.</div>
+      <div class="tags"><span class="tag tag-red">Segunda residência documentada</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Grandes parcelamentos — viagens e compras no cartão de Maria Belen</div>
+      <div class="card-body">
+        Club Med 8x ≈ <strong>R$ 59.451</strong> (mar/23, cartão Luciano)<br>
+        Azul Viagens FF338C 10x ≈ <strong>R$ 32.346</strong> (mai/23, cartão Luciano)<br>
+        AF Intern 4x ≈ <strong>R$ 20.964</strong> (mai/23, cartão Luciano — hotel/cia aérea)<br>
+        Mundo do Enxoval 6x ≈ <strong>R$ 4.011</strong> (nov/23, cartão Luciano)<br>
+        Tennis Ex 12x ≈ <strong>R$ 12.000+</strong> (mar/24, cartão Maria)<br><br>
+        Os três primeiros são viagens originadas em 2023, todos no cartão adicional do Luciano, pagos pelo limite da conta de Maria Belen. Total em viagens: <strong>≈ R$ 112.000</strong>.
+      </div>
+      <div class="tags"><span class="tag tag-warn">R$ 112.000+ em viagens de Luciano no cartão de Maria Belen</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Viagens internacionais pagas com o cartão de Maria Belen</div>
+      <div class="card-body">
+        <strong>Disneyland Paris (dez/23–jan/24):</strong>
+        <ul style="margin:6px 0 10px 18px;padding:0;line-height:1.8">
+          <li>20/12/23: Eurodisney Vacances EUR 316 = R$ 1.915 (cartão 0688, Maria Belen)</li>
+          <li>20/12/23: SNCF Ouigo EUR 92 = R$ 557 (trem França, cartão 1225, Maria Belen)</li>
+          <li>16/01/24: aviso formal de viagem ao Itaú + compras no aeroporto de Guarulhos</li>
+          <li>19/01/24: Disney All Access Chessy/FR EUR 360 = R$ 2.166 (cartão 0531, Luciano)</li>
+          <li>Estacionamento prolongado Indigo Guarulhos R$ 526 — carro parado no aeroporto</li>
+        </ul>
+        <strong>Total documentado Europa: ≈ R$ 4.639</strong><br><br>
+        <strong>Prova de uso por pessoa diferente — simultaneidade 20/12/23:</strong><br>
+        Mesmo dia: cartão 9368 (Maria Belen) usado em Punta del Este/Uruguai (Virazon R$ 511) E cartão 0688 (Maria Belen) usado em Paris (Eurodisney R$ 1.915). Fisicamente impossível ser a mesma pessoa — um dos cartões foi usado por terceiro.
+      </div>
+      <div class="tags"><span class="tag tag-red">Uso por terceiro documentado — prova física impossível</span></div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Placa GBB-6708 — pista para localizar o veículo de R$ 600.000</div>
+      <div class="card-body">Nos extratos bancários de jan/24 consta pagamento de IPVA para a placa GBB-6708 (R$ 3.281). Nas faturas do cartão de Luciano aparecem gastos de R$ 12.335 na Autostar (concessionária/loja automotiva em SP), classificados como "VEÍCULOS". A minuta do advogado de Luciano confirma a aquisição de veículo de R$ 600.000 — bem não localizado nos documentos analisados. Cruzamento da placa GBB-6708 no DETRAN-SP pode identificar o titular e contribuir para localizar esse bem.</div>
+      <div class="tags"><span class="tag tag-warn">Verificar DETRAN-SP — pode levar ao veículo de R$ 600k</span></div>
+    </div>
+
+
+    <div class="card card-danger">
+      <div class="card-title">B3 — e-mail bressan.mbpf@gmail.com no cadastro de Maria Belen</div>
+      <div class="card-body">O e-mail de cadastro da B3 (21/03/2024) foi enviado para dois endereços: <strong>bressan.mbpf@gmail.com</strong> e mb.ferres@gmail.com. O primeiro é o mesmo e-mail que o Banco Central identificou como chave Pix da conta Itaú de Maria Belen e que aparece no cadastro da Receita Federal de Maria Belen. Ele recebia notificações da B3, do Itaú e da Receita — controle digital total em todas as frentes.</div>
+      <div class="tags"><span class="tag tag-red">Controle digital confirmado na B3</span></div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">B3 — 7 operações de renda fixa em 17/05/2024</div>
+      <div class="card-body">7 compras de CDB e LCA na XP em 17/05/2024 — exatamente o mesmo dia em que chegaram as TEDs da XP de R$ 968.766 e Luciano recebeu o primeiro Pix de R$ 290.000. Parte dos recursos foi alocada em renda fixa enquanto outra foi imediatamente transferida para Luciano. Os valores das operações estão zerados no extrato disponível — precisam ser obtidos via nova emissão ou ofício judicial. Emissores: Omni CFI, Banco Agibank (2x), Banco ABC-Brasil, BTG Pactual (2x), Sicoob. Corretora custodiante: XP Investimentos.</div>
+      <div class="tags"><span class="tag tag-warn">Valores a obter</span><span class="tag tag-info">Extrato ampliado jan/23–dez/24 urgente</span></div>
+    </div>
+
+    <div class="card card-info">
+      <div class="card-title">CCS Banco Central — 15 instituições vinculadas ao CPF de Maria Belen</div>
+      <div class="card-body">15 instituições vinculadas ao CPF de Maria Belen. Aberturas em rajada: 4 contas em jun/2021 e 3 contas BTG em set/2022 simultâneas. Padrão atípico para pessoa física, sugerindo abertura coordenada por terceiro.</div>
+      <div class="tags"><span class="tag tag-info">Documento oficial</span></div>
+    </div>
+
+    <div class="card card-info">
+      <div class="card-title">Duas contas Santander agência 1755</div>
+      <div class="card-body">Existem duas contas correntes na mesma agência 1755 do Santander: <strong>conta 01000900-5</strong> (de Maria Belen — Luciano nunca teve acesso) e <strong>conta de Luciano</strong> (Maria Belen nunca teve acesso). A TED de R$ 543.869 saída da XP em 27/03/2024 foi para a conta de Luciano nessa agência.</div>
+      <div class="tags"><span class="tag tag-info">Confirmado por Maria Belen</span></div>
+    </div>
+
+    <div class="card card-info">
+      <div class="card-title">BTG — sem acesso até hoje</div>
+      <div class="card-body">Maria Belen nunca conseguiu acesso nem extratos da conta BTG. O processo de alteração cadastral iniciado em jun/2024 não foi concluído. Três contas BTG abertas simultaneamente em set/2022 no CPF de Maria Belen.</div>
+      <div class="tags"><span class="tag tag-warn">Acesso nunca obtido</span></div>
+    </div>
+  </section>
+
+  <!-- ATIVOS -->
+  <section class="section" id="ativos">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Ativos para partilha</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Imóvel — Rua Michigan 1150, AP 91, Brooklin, São Paulo</div>
+      <div class="card-body">Adquirido em 13/04/2018 (data da escritura, não 15/10/2017). Valor de compra R$ 1.890.000 (AP 91) + vagas de garagem = R$ 2.050.000 total. Financiamento Santander R$ 500.000 (360 parcelas, taxa 7,18% a.a., término 25/01/2048). Saldo devedor R$ 422.352 em ago/2023 — passivo a deduzir do valor de mercado na partilha. <strong>Matrícula 199.650 registra Luciano Bressan E Maria Belen Perez Ferres Bressan como adquirentes conjuntos</strong> — bem comum integral, sujeito à meação. Bloqueios judiciais trabalhistas: mais de 160 ações. Matrícula 199.650, 15º Oficial de Registro de Imóveis SP.</div>
+      <div class="tags"><span class="tag tag-red">Titularidade conjunta confirmada na matrícula</span><span class="tag tag-warn">160+ bloqueios trabalhistas</span></div>
+      <div class="tags"><span class="tag tag-warn">160+ bloqueios trabalhistas</span><span class="tag tag-red">Partilhável</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">AFLB Sociedade e Participações — CNPJ 28.029.123/0001-74</div>
+      <div class="card-body">Luciano declara <strong>5.000 ações</strong> dessa empresa no IR, avaliadas em R$ 5.000 (valor nominal). Maria Belen nunca ouviu falar da empresa. Adquirida durante o casamento — partilhável. Valor real provavelmente muito superior ao declarado. Alta prioridade para investigação.</div>
+      <div class="tags"><span class="tag tag-red">Alta prioridade</span><span class="tag tag-warn">Valor real desconhecido</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">CIA Investimentos em Vinhos Ltda. — CNPJ 39.489.947/0001-43</div>
+      <div class="card-body">Luciano declara <strong>108.500 quotas</strong> a R$ 1,00 cada (total declarado R$ 108.500). Valor de mercado provavelmente superior ao declarado. Adquirido durante o casamento — partilhável.<br><br>
+      <strong>Indício de atividade:</strong> nos extratos do cartão de Luciano aparecem compras recorrentes na Adega Brasil Distribuidora (Pinhais/PR) — distribuidora atacadista de bebidas conurbada a Curitiba. Dez/23: R$ 1.385 | Jan/24: R$ 1.353 | Abr/24: R$ 2.051. Total: ≈ R$ 4.789. O padrão de compras recorrentes de estoque é consistente com empresa ativa no setor de vinhos.</div>
+      <div class="tags"><span class="tag tag-red">Partilhável</span><span class="tag tag-warn">Perícia contábil necessária — empresa pode estar ativa</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Cota Clube Pinheiros</div>
+      <div class="card-body">Aparece nas negociações de ago/set 2024. A proposta era que Luciano ficasse com a cota em troca de assumir as dívidas trabalhistas do imóvel. Valor atual não confirmado.</div>
+      <div class="tags"><span class="tag tag-warn">Verificar valor</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Veículo de R$ 600.000 — confirmado pela defesa de Luciano</div>
+      <div class="card-body">A minuta interna do advogado de Luciano lista como argumento a rebater a aquisição de veículo de R$ 600.000. Não identificado em nenhum extrato ou IR analisado. A placa GBB-6708 (IPVA jan/24 nos extratos) e a compra na Autostar (R$ 10.535 em abr/24 nas faturas) podem estar relacionadas — mas R$ 600k é muito superior, sugerindo financiamento ou outra transação. Localizar urgente via DETRAN-SP.</div>
+      <div class="tags"><span class="tag tag-red">Bem não mapeado — R$ 600k</span><span class="tag tag-warn">Verificar DETRAN-SP e RENAVAM</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Visão Prev — Previdência Complementar PGBL</div>
+      <div class="card-body">Visão Prev Sociedade de Previdência Complementar (CNPJ 07.205.215/0001-98). Luciano pagou <strong>R$ 83.681,86</strong> em 2021 — integralmente dedutível, portanto plano PGBL. Mais R$ 18.000 pagos via conta BMP em 2024 (9 boletos de R$ 2.000). Plano PGBL com contribuições feitas durante o casamento é geralmente considerado patrimônio comum partilhável.<br><br>
+      <strong>Ponto crítico não resolvido:</strong> em dez/2022 saíram da conta Itaú de Maria Belen três Pix de R$ 35.000 cada (total R$ 105.000) fracionados no mesmo dia para "PIX QRS VISAO PREV". Era plano de Maria Belen ou do plano de Luciano? Se os R$ 105.000 foram para o plano de Luciano, poderia configurar mais um desvio de recursos — destino ainda não confirmado. Saldo acumulado total ainda não obtido.</div>
+      <div class="tags"><span class="tag tag-red">Partilhável — PGBL com contribuições durante casamento</span><span class="tag tag-warn">R$ 105k de origem incerta</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Contas BTG, Trustee, Necton, Planner, Trendi, BMP</div>
+      <div class="card-body">Listadas no CCS e nas pastas — ainda não analisadas. Podem conter patrimônio remanescente ou histórico de movimentações relevantes.</div>
+      <div class="tags"><span class="tag tag-gray">Pastas pendentes</span></div>
+    </div>
+  </section>
+
+  <!-- ITAÚ -->
+  <section class="section" id="itau">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Itaú — conta 04297-0 ag. 9652 — Maria Belen Perez Ferres Bressan</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card card-info">
+      <div class="card-title">Funcionamento geral da conta</div>
+      <div class="card-body">A conta funcionava como <strong>ponto de trânsito</strong>: recebia grandes TEDs da XP e BTG e redistribuía para Luciano, conta Santander de Maria Belen (ag. 1755), FJM SER e outros. O saldo nunca acumulava — era zerado a cada ciclo. Conta Personnalité com volume acima de R$ 250.000 (isenção total de tarifas). Gerente: Erickson (até 2023) / Thaina Andrade (2024). Período ativo: dez/2022 a jun/2024.</div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Encerramento deliberado — 05/06/2024</div>
+      <div class="card-body">Em 05/06/2024, o CDB de R$ 100.000 aplicado apenas 49 dias antes foi resgatado antecipadamente junto com a aplicação automática (total R$ 139.998), e R$ 140.000 foram transferidos para Luciano no mesmo dia. Em 07/06 — dois dias depois — o cartão Personnalité Black e os débitos automáticos da Eletropaulo foram cancelados. O esvaziamento foi deliberado, calculado e coordenado.</div>
+      <div class="tags"><span class="tag tag-red">Encerramento documentado</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Totais consolidados — série out/2022 a ago/2024</div>
+      <div class="card-body">
+        Total recebido da XP (identificado): <strong>≈ R$ 2.678.000</strong><br>
+        Total recebido do BTG: <strong>≈ R$ 479.870</strong> (dez/22 — única TED identificada)<br>
+        Total transferido para Luciano (saída): <strong>≈ R$ 1.763.000</strong><br>
+        Total para conta Santander de Maria Belen (ag. 1755): <strong>≈ R$ 517.000</strong><br>
+        Total FJM SER (saída): <strong>≈ R$ 705.000</strong><br>
+        Total Pers Black (cartão de Luciano): <strong>≈ R$ 352.000</strong><br>
+        Total Simples Nacional / "Secretaria": <strong>≈ R$ 130.000+</strong><br>
+        Total credor fixo INT 109000...: <strong>≈ R$ 85.000</strong><br>
+        Total DEBORA: <strong>≈ R$ 57.000</strong>
+      </div>
+      <div class="tags"><span class="tag tag-red">Valores parciais — série quase completa</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">FJM SER — IDENTIFICADO: FJM Serviços Administrativos Ltda</div>
+      <div class="card-body">CNPJ <strong>48.189.064/0001-09</strong>. Creditou aproximadamente <strong>R$ 941.000</strong> na conta BMP de Luciano entre janeiro e maio de 2024. Opera pelo Banco Inter (código 274 — confirmado pelos extratos de jul/23). Aparece nos extratos de Maria Belen desde dez/2022, tendo recebido R$ 405.513 (dez/22) e R$ 300.000 (mar/23) diretamente da conta de Maria Belen. Total movimentado por FJM em toda a série: <strong>≈ R$ 1.646.000</strong>. Sócios e natureza da empresa precisam ser apurados via JUCESP/Receita — possível empresa de Luciano ou de pessoa a Luciano relacionada.</div>
+      <div class="tags"><span class="tag tag-red">CNPJ identificado — investigar societário</span></div>
+      <div class="tags"><span class="tag tag-red">Identificação urgente</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">TEDs anônimas — R$ 256.719 sem destinatário identificado</div>
+      <div class="card-body">
+        Duas TEDs com código hash saíram sem identificar beneficiário:<br>
+        — Jan/2023: R$ 56.719,89 (código 39bf9b35) — mesmo dia que FJM entrou com R$ 60.943<br>
+        — Ago/2023: R$ 200.000,00 (código 03e79719) — mesmo dia que TED da XP de R$ 285.757 chegou<br>
+        O padrão FJM entra → TED anônima sai no mesmo dia é consistente com uso de intermediário para redistribuição de recursos — a confirmar.
+      </div>
+      <div class="tags"><span class="tag tag-red">R$ 256.719 sem destino identificado</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">"MARIA B" — conta Santander de Maria Belen (ag. 1755)</div>
+      <div class="card-body">Pix mensais recorrentes identificados como conta de Maria Belen no Santander (ag. 1755). Valor habitual R$ 20.000/mês, com picos de R$ 50.000 (jan/23 e jul/23). Total acumulado nos meses analisados: ≈ R$ 399.000. É o segundo maior destino de saída da conta de Maria Belen no Itaú. A conta Santander era mais um elo da cadeia — de onde os recursos saíam para outros destinos controlados por Luciano. Os extratos do Santander são urgentes para rastrear o destino final.</div>
+      <div class="tags"><span class="tag tag-red">R$ 399k sem identificação</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Outros destinatários recorrentes identificados</div>
+      <div class="card-body">
+        <strong>Debora:</strong> R$ 11.000–12.600/mês, sempre em meados do mês (jul/23, ago/23, abr/24). Total parcial ≈ R$ 35.000.<br><br>
+        <strong>QRS SECRETARIA:</strong> Aparece desde jan/23. Total acumulado ≈ R$ 76.000 (jan/23 R$ 45.620, jul/23 R$ 21.151, dez/23 R$ 11.918, fev/24 R$ 13.450, abr/24 R$ 5.149). Natureza não identificada.<br><br>
+        <strong>CITYBRO:</strong> R$ 20.709 em jul/23 — possivelmente credor real do título recorrente 7222285240.<br><br>
+        <strong>CINCOQU:</strong> R$ 60.000 em jun/23 — nome truncado, destinatário desconhecido.<br><br>
+        <strong>ORTUZAR:</strong> Aparece como remetente em dez/22 (R$ 3.650) e jun/23 (R$ 7.426).<br><br>
+        <strong>Simples Nacional:</strong> R$ 26.109 em jan/24 — confirma PJ associada à conta. Empresa não identificada.<br><br>
+        <strong>IPVA placa GBB-6708:</strong> R$ 3.281 em jan/24 — veículo rastreável no DETRAN-SP.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Série cronológica — todos os meses analisados</div>
+      <div class="card-body" style="overflow-x:auto">
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)">
+            <th style="text-align:left;padding:4px 8px;color:var(--text3)">Mês</th>
+            <th style="text-align:right;padding:4px 8px;color:var(--text3)">TED XP</th>
+            <th style="text-align:right;padding:4px 8px;color:var(--text3)">Luciano saída</th>
+            <th style="text-align:right;padding:4px 8px;color:var(--text3)">Santander Maria Belen</th>
+            <th style="text-align:right;padding:4px 8px;color:var(--text3)">FJM SER saída</th>
+            <th style="text-align:right;padding:4px 8px;color:var(--text3)">Pers Black</th>
+            <th style="text-align:right;padding:4px 8px;color:var(--text3)">Invest.</th>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Nov/22</td><td style="text-align:right;padding:4px 8px">R$ 119.701</td><td style="text-align:right;padding:4px 8px">R$ 55.192</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 90.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 22.318</td><td style="text-align:right;padding:4px 8px">R$ 261.550</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Dez/22</td><td style="text-align:right;padding:4px 8px">R$ 196.992</td><td style="text-align:right;padding:4px 8px">R$ 5.553</td><td style="text-align:right;padding:4px 8px">R$ 20.000</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 405.513</td><td style="text-align:right;padding:4px 8px">R$ 17.952</td><td style="text-align:right;padding:4px 8px">R$ 414.352</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Jan/23</td><td style="text-align:right;padding:4px 8px">R$ 100.841</td><td style="text-align:right;padding:4px 8px">R$ 70.118</td><td style="text-align:right;padding:4px 8px">R$ 70.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 24.014</td><td style="text-align:right;padding:4px 8px">R$ 293.040</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Fev/23</td><td style="text-align:right;padding:4px 8px">R$ 197</td><td style="text-align:right;padding:4px 8px">R$ 6.100</td><td style="text-align:right;padding:4px 8px">R$ 20.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 21.495</td><td style="text-align:right;padding:4px 8px">R$ 265.468</td></tr>
+          <tr style="border-bottom:1px solid var(--border);font-weight:500"><td style="padding:4px 8px">Mar/23</td><td style="text-align:right;padding:4px 8px">R$ 435.297</td><td style="text-align:right;padding:4px 8px">R$ 2.220</td><td style="text-align:right;padding:4px 8px">R$ 70.000</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 300.000</td><td style="text-align:right;padding:4px 8px">R$ 18.582</td><td style="text-align:right;padding:4px 8px">R$ 217.915</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Abr/23</td><td style="text-align:right;padding:4px 8px">R$ 115.077</td><td style="text-align:right;padding:4px 8px">R$ 4.968</td><td style="text-align:right;padding:4px 8px">R$ 35.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 26.300</td><td style="text-align:right;padding:4px 8px">R$ 269.753</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Mai/23</td><td style="text-align:right;padding:4px 8px">R$ 80.523</td><td style="text-align:right;padding:4px 8px">R$ 15.256</td><td style="text-align:right;padding:4px 8px">R$ 20.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 46.162</td><td style="text-align:right;padding:4px 8px">R$ 272.396</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Jun/23</td><td style="text-align:right;padding:4px 8px">R$ 50.692</td><td style="text-align:right;padding:4px 8px">R$ 4.529</td><td style="text-align:right;padding:4px 8px">R$ 20.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 35.206</td><td style="text-align:right;padding:4px 8px">R$ 118.326</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Jul/23</td><td style="text-align:right;padding:4px 8px">R$ 209.862</td><td style="text-align:right;padding:4px 8px">R$ 5.640</td><td style="text-align:right;padding:4px 8px">R$ 70.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 45.084</td><td style="text-align:right;padding:4px 8px">R$ 251.840</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Ago/23</td><td style="text-align:right;padding:4px 8px">R$ 401.405</td><td style="text-align:right;padding:4px 8px">R$ 9.373</td><td style="text-align:right;padding:4px 8px">R$ 20.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 37.869</td><td style="text-align:right;padding:4px 8px">R$ 254.329</td></tr>
+          <tr style="border-bottom:1px solid var(--border);font-weight:500"><td style="padding:4px 8px">Dez/23</td><td style="text-align:right;padding:4px 8px">R$ 443.078</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 439.729</td><td style="text-align:right;padding:4px 8px">R$ 26.636</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 22.556</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 0</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Jan/24</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 12.677</td><td style="text-align:right;padding:4px 8px">R$ 30.468</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 29.306</td><td style="text-align:right;padding:4px 8px">R$ 0</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Fev/24</td><td style="text-align:right;padding:4px 8px">R$ 105.011</td><td style="text-align:right;padding:4px 8px">R$ 23.777</td><td style="text-align:right;padding:4px 8px">R$ 17.614</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 17.452</td><td style="text-align:right;padding:4px 8px">R$ 0</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Mar/24</td><td style="text-align:right;padding:4px 8px">R$ 105.392</td><td style="text-align:right;padding:4px 8px">R$ 14.793</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 18.058</td><td style="text-align:right;padding:4px 8px">R$ 0</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Abr/24</td><td style="text-align:right;padding:4px 8px">R$ 197.184</td><td style="text-align:right;padding:4px 8px">R$ 6.643</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 33.184</td><td style="text-align:right;padding:4px 8px">R$ 100.123</td></tr>
+          <tr style="border-bottom:1px solid var(--border);font-weight:500"><td style="padding:4px 8px">Mai/24</td><td style="text-align:right;padding:4px 8px">R$ 968.767</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 906.654</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 17.104</td><td style="text-align:right;padding:4px 8px">R$ 0</td></tr>
+          <tr style="border-bottom:1px solid var(--border);font-weight:500"><td style="padding:4px 8px">Jun/24</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 140.000</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 5.308</td><td style="text-align:right;padding:4px 8px;color:var(--accent)">R$ 0</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px">Jul/24</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 0</td></tr>
+          <tr><td style="padding:4px 8px">Ago/24</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">—</td><td style="text-align:right;padding:4px 8px">R$ 0</td></tr>
+        </table>
+      </div>
+      <div class="tags">
+        <span class="tag tag-warn">Meses não analisados: set, out, nov 2023</span>
+        <span class="tag tag-info">17 de 19 meses analisados</span>
+      </div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Origem do patrimônio da XP — CDB de R$ 1M de Luciano</div>
+      <div class="card-body">O IR de Luciano mostra que Luciano tinha <strong>R$ 1.013.903 em CDB/Aplic Auto Itaú em dez/2020</strong>, zerado até dez/2021. No mesmo período, a conta XP de Maria Belen foi aberta (jun/2021) e rapidamente acumulou mais de R$ 1 milhão em investimentos. A hipótese mais provável: o dinheiro saiu do CDB de Luciano e foi capitalizar a conta de Maria Belen — que Luciano controlava. O patrimônio de Maria Belen na XP pode não ter sido nunca originalmente sua.</div>
+      <div class="tags"><span class="tag tag-red">Origem do patrimônio a investigar</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Santander — conta conjunta confirmada no IR de Luciano</div>
+      <div class="card-body">A declaração de IR de Luciano lista explicitamente: <strong>"Luciano R$ 172.806,81 / Maria R$ 66.181,56"</strong> nos investimentos Santander. Eles tinham patrimônio conjunto declarado ali. Isso é consistente com a hipótese de que a conta Santander agência 1755 era um ambiente financeiro compartilhado, e reforça que "PIX MARIA B" dos extratos Itaú ia para essa conta — de onde Luciano redistribuía para outros destinos. Os extratos do Santander de Maria Belen são agora a peça mais urgente.</div>
+      <div class="tags"><span class="tag tag-red">Prova documental no IR de Luciano</span></div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">FJM SER — possível conexão com empresas de Luciano</div>
+      <div class="card-body">FJM Serviços Administrativos Ltda (CNPJ 48.189.064/0001-09) creditou R$ 941k na conta BMP de Luciano. GAD Serviços (51.696.757) e Marechal Serviços (51.696.781) têm CNPJs sequenciais — provavelmente constituídas juntas. Ligo Soluções/SAGO Global (mesmo CNPJ 18.058.582/0001-22) fez movimentação circular de R$ 130.000. Cruzar todos esses CNPJs na JUCESP e Receita Federal para identificar sócios e verificar se Luciano ou pessoas ligadas figuram como administradores.</div>
+      <div class="tags"><span class="tag tag-red">Rede de empresas — investigar societário urgente</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Conta de Luciano (03600-6) — estação de redistribuição</div>
+      <div class="card-body">A conta própria de Luciano na mesma agência Personnalité sempre termina com saldo zero. O dinheiro entra de Maria Belen (ou de outra conta do próprio Luciano) e sai imediatamente para GAD SER, MARECHA e FJM SER em ciclos repetidos. Nunca acumula. Maria Belen cobria diretamente a fatura do Itaú Black de Luciano (cartão 3101-4478, faturas de R$ 1.300–1.400/mês). O Pers Black 3608-6931 debitado na conta de Maria Belen com faturas de até R$ 46.162 é o cartão da própria Maria Belen — que Luciano controlava. Dois cartões Black, ambos financiados por Maria Belen.</div>
+      <div class="tags"><span class="tag tag-red">Conta hub — saldo sempre zero</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">GAD SER — IDENTIFICADO: GAD Serviços Ltda</div>
+      <div class="card-body">CNPJ <strong>51.696.757/0001-00</strong>. Recebeu aproximadamente <strong>R$ 1.011.000</strong> da conta BMP de Luciano — sendo que R$ 600.000 saíram em um único dia (28/08/2024). É o destino final de praticamente todo o dinheiro que Maria Belen enviou a Luciano em mai/jun de 2024 (R$ 1.010.000). O CNPJ de Marechal Serviços (51.696.781) é sequencial ao de GAD — provavelmente constituídas no mesmo dia pelo mesmo sócio. Consulta urgente na JUCESP.</div>
+      <div class="tags"><span class="tag tag-red">CNPJ identificado — destino final do R$ 1M</span></div>
+      <div class="tags"><span class="tag tag-red">R$ 307k em 1 mês — empresa não identificada</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Ciclo completo documentado</div>
+      <div class="card-body">
+        <strong>1.</strong> XP envia TED para conta de Maria Belen (identificada como "MARIA B P F")<br>
+        <strong>2.</strong> Maria Belen envia Pix para Luciano (até R$ 290.000×3 em mai/24)<br>
+        <strong>3.</strong> Conta hub de Luciano (03600-6) redistribui imediatamente para GAD SER, MARECHA e FJM SER<br>
+        <strong>4.</strong> Eventualmente CDB é aplicado como buffer temporário e resgatado para cobrir próximo ciclo<br>
+        <strong>5.</strong> Todas as contas terminam zeradas — sem rastro de patrimônio acumulado
+      </div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Descoberta crítica — "SECRETARIA" é Simples Nacional</div>
+      <div class="card-body">Em setembro/2023, o pagamento aparece sem QR Code identificado como <strong>"Int SIMPLES NACIONA 0720"</strong> — dois pagamentos de R$ 15.430 e R$ 19.525 no mesmo dia. Isso resolve o mistério de "PIX QRS SECRETARIA" que aparecia nos meses seguintes. Há uma empresa optante pelo Simples Nacional cujos tributos são pagos por esta conta. Guias de R$ 15-19k mensais correspondem a faturamento de R$ 500k–800k/mês — não é MEI, é empresa de porte significativo. Onde está o dinheiro que essa empresa fatura?</div>
+      <div class="tags"><span class="tag tag-red">Empresa não identificada — alta prioridade</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Outubro/2022 — MARIA B é a conta Santander de Maria Belen</div>
+      <div class="card-body">MARIA B recebeu R$ 232.446 em out/22 — 59% de todas as saídas do mês. E no mesmo mês chegou uma entrada identificada como <strong>"TED 033.1755 MARIA BELEN"</strong> — banco 033 é o Santander, agência 1755. "MARIA B" é a conta de Maria Belen no Santander (ag. 1755), confirmado pela própria Maria Belen. O dinheiro saía do Itaú → conta Santander de Maria Belen → e de lá para outros destinos controlados por Luciano. A conta Santander era mais um elo da cadeia, não o destino final. Total enviado para "MARIA B" em todo o período: <strong>≈ R$ 517.446</strong>.</div>
+      <div class="tags"><span class="tag tag-red">Hipótese confirmada</span><span class="tag tag-info">Conta Santander ag. 1755 era o próximo elo</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Setembro/2023 — único mês sem TED da XP</div>
+      <div class="card-body">Sem a XP, a conta quase zera (saldo R$ 3.294 ao final). Luciano injetou R$ 35.000 <strong>exatamente no dia dos pagamentos do Simples Nacional</strong> (20/09) — R$ 34.955 devidos e R$ 35.000 enviados por Luciano. Isso é consistente com a hipótese de que Luciano controlava o fluxo e injetava recursos quando necessário para cobrir obrigações específicas. MARECHA também aparece com R$ 15.000 como remetente desconhecido.</div>
+      <div class="tags"><span class="tag tag-red">Controle de Luciano confirmado</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Credor fixo mensal INT 109000... — série completa</div>
+      <div class="card-body">
+        Quatro meses com numeração sequencial crescente e valores quase idênticos — definitivamente parcela mensal fixa:<br><br>
+        Set/23: código 108833 — R$ 17.554<br>
+        Out/23: código 111407 — R$ 17.773<br>
+        Nov/23: código 114047 — R$ 17.837<br>
+        Mar/24: código 124251 — R$ 17.237<br>
+        Abr/24: código 127114 — R$ 14.578<br>
+        Mai/24: código 129706 — R$ 14.578<br><br>
+        <strong>Total identificado: ≈ R$ 99.000</strong> pagos ao mesmo credor desconhecido. Valores caem de ~R$ 17k para ~R$ 14,5k a partir de abr/24 — pode indicar amortização ou refinanciamento. O Itaú pode identificar o credor com o número do título.
+      </div>
+      <div class="tags"><span class="tag tag-warn">Credor não identificado — R$ 85k+</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">TBI 9652.03600-6 — transferências diretas para conta de Luciano</div>
+      <div class="card-body">Aparece em set/23 (R$ 2.500) e dez/22 (R$ 53). TBI = Transferência Bancária Interna. Conta 03600-6, agência 9652 — que corresponde à conta corrente de Luciano no Itaú conforme declarado no IR de Luciano. Transferências diretas da conta de Maria Belen para a conta de Luciano dentro do mesmo banco.</div>
+      <div class="tags"><span class="tag tag-red">Prova direta de transferência entre contas</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Outros destinatários relevantes identificados no período</div>
+      <div class="card-body">
+        <strong>RODRIGO:</strong> R$ 100.000 em out/22 — único registro. CDB resgatado especificamente para cobrir.<br><br>
+        <strong>MARCELA:</strong> R$ 50.000 em nov/22 — único registro. Nunca mais aparece.<br><br>
+        <strong>MARECHA:</strong> Aparece como remetente em set/23 (R$ 15.000 para Maria). Na conta de Luciano: recebe R$ 105.000 em mar/24, R$ 100.000 em abr/24, e R$ 19.600 em dez/24. Relação bidirecional — mesmo padrão de FJM SER. Total confirmado recebido por MARECHA via Luciano: R$ 220k+.<br><br>
+        <strong>ORTUZAR / ORTUZAR S IN:</strong> Aparece como remetente em out/22 (banco 104) e em mar/23 e jun/23. Banco 104 é o Banco BRL ou similar.<br><br>
+        <strong>DEBORA:</strong> R$ 11k–12k mensais recorrentes (mai/23, set/23, out/23, nov/23, abr/24). Total ≈ R$ 57.000.<br><br>
+        <strong>CITYBRO:</strong> R$ 20.709 em jul/23 — credor real do título recorrente 7222285240.<br><br>
+        <strong>CINCOQU:</strong> R$ 60.000 em jun/23 — nome truncado, único registro.<br><br>
+        <strong>Placa GBB-6708:</strong> IPVA pago em jan/24 — veículo rastreável no DETRAN-SP.
+      </div>
+    </div>
+  </section>
+
+  <!-- BMP -->
+  <section class="section" id="bmp">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">BMP — Conta de Luciano Bressan</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card card-info">
+      <div class="card-title">Dados da conta</div>
+      <div class="card-body">Conta 76820-0, BMP SCM, em nome de Luciano Bressan (CPF 023.310.169-17). Resposta a ofício judicial — processo 1095780-07.2024.8.26.0002, 7ª Vara de Família e Sucessões de Santo Amaro/SP. Período: 01/01/2024 a 25/11/2025. Saldo inicial: R$ 0. Pico: R$ 1.042.171 em 05/06/2024. Saldo atual: R$ 0 disponível (R$ 4.182 bloqueado judicialmente). Conta secundária 84348-2 aberta e nunca movimentada.</div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Destino do R$ 1.010.000 de Maria Belen — rastreado</div>
+      <div class="card-body">
+        Os quatro Pix enviados por Maria Belen chegaram à conta BMP de Luciano:<br><br>
+        17/05/2024: R$ 290.000 | 18/05/2024: R$ 290.000 | 20/05/2024: R$ 290.000 | 05/06/2024: R$ 140.000<br>
+        <strong>Total recebido de Maria Belen: R$ 1.010.000</strong><br><br>
+        No mesmo período, a conta BMP enviou para <strong>GAD Serviços Ltda</strong>:<br>
+        03/05: R$ 100k | 10/05: R$ 100k | 13/05: R$ 100k | 14/05: R$ 100k | 16/05: R$ 11k | 28/08: R$ 600k<br>
+        <strong>Total para GAD: ≈ R$ 1.011.000</strong><br><br>
+        <strong>Atenção — sequência temporal:</strong> os pagamentos de 03/05 a 16/05 (R$ 411k) saíram <em>antes</em> dos Pix de Maria Belen chegarem (17/05). Esses valores vieram de FJM Serviços, que creditou ≈ R$ 941k na conta BMP entre jan–mai/2024. O pagamento de 28/08 (R$ 600k) saiu após o recebimento dos R$ 1.010.000 de Maria Belen. O total enviado a GAD (≈ R$ 1.011k) é praticamente idêntico ao total recebido de Maria Belen — mas a correspondência direta entre Pix individuais e saídas para GAD requer análise complementar dos extratos BMP.
+      </div>
+      <div class="tags"><span class="tag tag-red">Rastro completo: Maria Belen → Luciano BMP → GAD Serviços</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Rede de empresas identificadas</div>
+      <div class="card-body">
+        <strong>FJM Serviços Administrativos Ltda</strong> (CNPJ 48.189.064/0001-09) — creditou ≈ R$ 941.000 na conta de Luciano entre jan–mai/2024. É o "FJM SER" dos extratos de Maria Belen desde dez/2022.<br><br>
+        <strong>GAD Serviços Ltda</strong> (CNPJ 51.696.757/0001-00) — recebeu ≈ R$ 1.011.000 de Luciano. Destino final do dinheiro de Maria Belen.<br><br>
+        <strong>Marechal Serviços Ltda</strong> (CNPJ 51.696.781/0001-31) — é o "MARECHA". CNPJs sequenciais ao GAD — provavelmente constituídas juntas pelo mesmo sócio.<br><br>
+        <strong>Ligo Soluções / SAGO Global</strong> (mesmo CNPJ 18.058.582/0001-22) — empresa mudou de nome entre set e out/2024. R$ 130.000 saíram e retornaram 5 dias depois — movimentação circular.<br><br>
+        <strong>Ortuzar Sociedade Individual de Advocacia</strong> — confirmado como escritório de advocacia. O ORTUZAR dos extratos de Maria Belen é advogado.<br><br>
+        <strong>Citybrokers A P Ltda</strong> — é o "CITYBRO". Corretora de seguros. R$ 55.641 em pagamentos.<br><br>
+        <strong>Visão Prev Soc Prev Complement</strong> — R$ 18.000 pagos por Luciano (9 boletos de R$ 2.000). A mesma Visão Prev que recebeu R$ 105.000 fracionados da conta de Maria Belen em dez/2022. Patrimônio de previdência a localizar e incluir na partilha.
+      </div>
+      <div class="tags"><span class="tag tag-red">Investigar societário: FJM, GAD, Marechal, Ligo/SAGO</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Pessoas físicas identificadas — CPFs confirmados</div>
+      <div class="card-body">
+        <strong>Paloma Costa Santos</strong> — CPF 508.909.118-86 — pagamentos mensais R$ 200–400<br>
+        <strong>Maria Vitória Freitas</strong> — CPF 142.573.344-10 — pagamentos mensais R$ 200–800<br>
+        <strong>Karin Maria Kenzler</strong> — CPF 147.422.308-76 — R$ 5.400 total<br>
+        <strong>Camila Define Oliveira</strong> — pagamentos mensais R$ 1.320<br>
+        <strong>Cassiano Ricardo de Paula Campos</strong> — CPF 164.246.568-20 — R$ 100.000 (R$ 60k + R$ 40k)<br>
+        <strong>Elizabeth Maria F. Bressan</strong> — CPF 024.546.659-21 — R$ 20.584 entrada → mesmo valor sai para Marechal no dia seguinte (triangulação documentada)<br>
+        <strong>Felipe Perez Bressan</strong> e <strong>João Perez Bressan</strong> — filhos — aparecem nos extratos
+      </div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Questão crítica — a que título foram enviados os R$ 1.010.000?</div>
+      <div class="card-body">Maria Belen enviou R$ 1.010.000 para Luciano em 3 semanas (17/05 a 05/06/2024). A natureza jurídica desse envio precisa ser esclarecida urgentemente com Maria Belen: foi acordo verbal? Empréstimo? Adiantamento de partilha? Pressão? Se configurar adiantamento de partilha, é favorável a Maria Belen. Se configurar doação, pode ser desfavorável. A advogada Veridiana Fraga precisa saber.</div>
+      <div class="tags"><span class="tag tag-red">Confirmar com Maria Belen — urgente</span></div>
+    </div>
+  </section>
+
+  <!-- MAFRA -->
+  <section class="section" id="mafra">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Mafra FIP + AG42 FIDC — Dois contratos, mesma estrutura</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Dois CCVs assinados na mesma data — total R$ 471.647</div>
+      <div class="card-body">Em 03/06/2022 — 13 meses antes da separação — Luciano assinou dois contratos com Maria Belen:<br><br>
+      <strong>CCV 1 — Mafra FIP</strong> (CNPJ 40.902.514): 797,82 cotas por <strong>R$ 190.132,92</strong><br>
+      <strong>CCV 2 — AG42 FIDC NP</strong> (CNPJ 28.065.338): 200 cotas por <strong>R$ 281.514,64</strong><br><br>
+      <strong>Total nominal transferido: R$ 471.647,56</strong><br><br>
+      Ambos têm CPF de Maria Belen incorreto (consta o CPF de Luciano). Ambos têm a mesma estrutura assimétrica: Maria Belen não pode votar, vender ou onerar; earnout de 95% do excedente volta para Luciano; se não pagar, Luciano retoma as cotas. Em ambos Maria Belen é cotista nominal sem benefício econômico real — estrutura consistente com dissimulação patrimonial pré-divórcio.</div>
+      <div class="tags"><span class="tag tag-red">Dois contratos — R$ 471.647 total</span><span class="tag tag-red">CPF incorreto em ambos</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">AG42 FIDC NP — patrimônio de R$ 8M em mai/2022</div>
+      <div class="card-body">Fundo de Investimento em Direitos Creditórios Não Padronizados (CNPJ 28.065.338/0001-40), administrado pela Planner Trustee DTVM. Patrimônio total em mai/2022: <strong>R$ 8.047.487</strong>. Cotistas: Wilson da Costa Ritto Filho (R$ 2.533.631), Raul Andres Ortuzar Ramirez (<strong>R$ 2.533.631 sênior</strong> + R$ 4.864 subordinada), Aníbal César Jesus dos Santos (R$ 2.111.359), André Felipe Rosado França (R$ 422.271), Luciano Bressan (R$ 281.514).<br><br>
+      Ortuzar tem R$ 2,53M no AG42 — além dos 31,58% que já detém no Mafra FIP. É o investidor dominante em ambos os fundos onde Luciano tinha posição.</div>
+      <div class="tags"><span class="tag tag-red">Ortuzar dominante em ambos os fundos</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Conta Trustee encerrada — data desconhecida</div>
+      <div class="card-body">Em junho de 2025 a Trustee confirmou por e-mail que a conta de Maria Belen está encerrada e com saldo zerado. A data exata do encerramento não foi especificada. Se ocorreu entre mai/jun/2024 (período do esvaziamento) sem medida judicial de bloqueio prévia, as cotas podem ter sido liquidadas sem rastreamento fácil. Obter extrato detalhado com datas de cada distribuição e o momento do encerramento é urgente.</div>
+      <div class="tags"><span class="tag tag-red">Urgente — quando foi encerrada?</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Bio M Serviços de Nutrição — empresa de Maria Belen identificada</div>
+      <div class="card-body">Na ficha cadastral da Trustee (ago/2022) Maria Belen declarou ser proprietária da <strong>Bio M Serviços de Nutrição Eireli</strong> (CNPJ 13.205.249/0001-85), com renda mensal de R$ 50.000. No IR de Maria Belen de 2021 a renda tributável era zero. Verificar se a empresa foi aberta entre 2021 e 2022 e qual é sua atividade real.</div>
+      <div class="tags"><span class="tag tag-warn">Empresa de Maria Belen — verificar atividade e renda declarada</span></div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Patrimônio autodeclarado de R$ 6,2M em ago/2022</div>
+      <div class="card-body">Na ficha cadastral da Trustee (ago/2022), Maria Belen declarou: R$ 3.000.000 em aplicações financeiras, R$ 3.000.000 em imóveis, R$ 200.000 em veículos. Declaração formal perante instituição regulada, 11 meses antes da separação.<br><br><strong>Contexto estratégico:</strong> essa declaração foi feita por Maria Belen mas reflete o patrimônio que Luciano controlava e administrava em nome de Maria Belen — não o patrimônio que Maria Belen tinha autonomia sobre. A parte contrária pode usar esse valor como referência de patrimônio à época, mas a advogada deve estar preparada para contextualizar que Maria Belen não tinha acesso nem controle sobre esses ativos.</div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Estrutura assimétrica — transferência nominal sem benefício real</div>
+      <div class="card-body">
+        <ul style="margin:0 0 12px 18px;padding:0;line-height:1.8">
+          <li>Maria Belen não pode votar, alienar nem onerar as cotas enquanto não quitar</li>
+          <li>Se o fundo render acima do preço, 95% do excedente volta para Luciano (earnout 8 anos até jun/2030)</li>
+          <li>Se Maria Belen não pagar até 45 dias após 03/06/2025, as cotas voltam automaticamente</li>
+          <li>Maria Belen já assinou procuração irrevogável autorizando Luciano a reaver as cotas</li>
+        </ul>
+        Permite a Luciano retirar ativos do seu nome reduzindo patrimônio declarável, sem abrir mão do controle e do rendimento. Pode ser atacado por simulação (CC art. 167), fraude contra meação, ou ineficácia de alienação entre cônjuges.
+      </div>
+      <div class="tags"><span class="tag tag-red">Possível simulação — CC art. 167</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Família Ortuzar — presente em ambos os fundos</div>
+      <div class="card-body">Raul Andres Ortuzar Ramirez: 31,58% do Mafra FIP + R$ 2.533.631 no AG42. Nicolas Rodrigo Ortuzar Ramirez: 3,40% do Mafra FIP. A Ortuzar Sociedade Individual de Advocacia pagou R$ 1.484 para Luciano na conta BMP em abr/2024. ORTUZAR aparecia como remetente nos extratos de Maria Belen desde out/2022. Conflito de interesses grave se o escritório representa tanto o fundo quanto Luciano.</div>
+      <div class="tags"><span class="tag tag-red">Investigar vínculo Ortuzar ↔ fundos ↔ Luciano</span></div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Rudimar Antonio Bressan Bonfa — parente de Luciano no Mafra</div>
+      <div class="card-body">Cotista do Mafra FIP com 0,85%. Mesmo sobrenome de Luciano — parentesco não confirmado documentalmente, mas a investigar. A família Bressan pode ter patrimônio alocado no mesmo veículo.</div>
+    </div>
+
+    <div class="card card-warn">
+      <div class="card-title">Ações urgentes</div>
+      <div class="card-body">
+        <strong>1. Ofício à Planner Trustee</strong> — extratos de distribuições pagas desde jun/2022, data exata do encerramento da conta de Maria Belen, posição atual das cotas na CVM.<br>
+        <em style="color:var(--text3);font-size:12px">Por que urgente: sem saber quando a conta foi encerrada e quanto foi distribuído, não é possível calcular o valor real dos CCVs nem contestar os R$ 1.010.000 pagos por Maria Belen com base em números precisos.</em><br><br>
+        <strong>2. Verificar na CVM se as cotas estão em nome de Maria Belen ou ainda de Luciano</strong><br>
+        <em style="color:var(--text3);font-size:12px">Por que urgente: se as cotas nunca saíram do nome de Luciano no registro oficial da CVM, o contrato de compra e venda é uma ficção jurídica — o que fortalece decisivamente o argumento de simulação (CC art. 167) e facilita a anulação dos CCVs.</em><br><br>
+        <strong>3. Cruzar declarações de IR: Luciano declarou os R$ 1.010.000 como pagamento dos CCVs?</strong><br>
+        <em style="color:var(--text3);font-size:12px">Por que urgente: se Luciano não declarou esse recebimento como receita ou ganho de capital, há omissão fiscal — o que reforça que os CCVs eram instrumentos formais, não operações reais. Se declarou, a natureza do valor declarado pode ser usada na contestação.</em><br><br>
+        <strong>4. Investigar vínculos do escritório Ortuzar com os fundos e com Luciano</strong><br>
+        <em style="color:var(--text3);font-size:12px">Por que urgente: Raul e Nicolas Ortuzar são os maiores cotistas do Mafra FIP e do AG42 — os mesmos fundos cujas cotas foram "vendidas" a Maria Belen. Se o escritório Ortuzar representa tanto os fundos quanto Luciano, há conflito de interesses grave que pode invalidar atos praticados em nome dos fundos, incluindo os próprios CCVs.</em>
+      </div>
+      <div class="tags"><span class="tag tag-warn">Ofício Planner Trustee urgente</span></div>
+    </div>
+  </section>
+
+  <!-- IR / EMPRESAS -->
+  <section class="section" id="ir">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">IR e estrutura patrimonial de Luciano</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">IR de Maria Belen — e-mail dele no cadastro da Receita</div>
+      <div class="card-body">A declaração de IR de Maria Belen (exercício 2022, ano-calendário 2021) tem como e-mail cadastral <strong>BRESSAN.MBPF@GMAIL.COM</strong> — o mesmo endereço criado e controlado por Luciano. Isso significa que Luciano tinha acesso ao portal da Receita Federal no nome de Maria Belen, podendo visualizar e potencialmente alterar declarações sem o conhecimento de Maria Belen.</div>
+      <div class="tags"><span class="tag tag-red">Gravíssimo</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">IR de Maria Belen — situação patrimonial declarada (2021)</div>
+      <div class="card-body">Bens em 31/12/2021: R$ 1.237.620. Sem renda tributável declarada — Maria Belen não tinha renda própria. Patrimônio composto por: CDB Itaú CV R$ 150.000, RDB/CDB Itaú R$ 7.418, Investimentos XP R$ 951.173, Fundos Santander R$ 3.379, CDB Santander R$ 25.639, LCI Itaú R$ 100.000, C/C Itaú R$ 10 (agência 9652, conta 04297-0 confirmada).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">IR de Luciano — renda e patrimônio declarado (2021)</div>
+      <div class="card-body">Renda 2021: <strong>R$ 660.000</strong> da LIQ Corp SA (CNPJ 67.313.221/0001-90) — diretor de empresa. Patrimônio caiu de R$ 4.049.692 (dez/2020) para R$ 2.581.352 (dez/2021) — queda de R$ 1,4 milhão em um ano. CDB Itaú zerou (de R$ 1.013.903 para zero). FIDC Planner zerou (de R$ 524.293 para zero). Esses valores sumiram sem explicação visível na declaração.<br><br>
+      <strong>Conexão crítica — LIQ Corp é subsidiária da ATMA Participações S.A.:</strong> A ATMA (ATPM3) passou por recuperação extrajudicial (2020) e judicial (2022). Luciano recebia R$ 660.000/ano como diretor de uma empresa em processo de recuperação. O AG42 FIDC NP pode ser credor debenturista da ATMA — os cronogramas de amortização coincidem com o período em que o FIDC zerou no IR de Luciano (2021). Se confirmado, as cotas do AG42 "vendidas" a Maria Belen por R$ 281.514 são ativos cujo valor depende do cumprimento do plano de recuperação da ATMA — risco que Maria Belen assumiu sem saber.</div>
+      <div class="tags"><span class="tag tag-red">Queda de R$ 1,4M sem justificativa clara</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">FIDC AG42 NP — R$ 524.293 zerou sem rastro declarado</div>
+      <div class="card-body">Fundo de Investimento em Direitos Creditórios Não Padronizado, administrado pela Planner Corretora de Valores SA (CNPJ 00.806.535/0001-54). Em 31/12/2020 Luciano tinha R$ 524.293,22 neste fundo. Em 31/12/2021 o valor era R$ 0 — sem ganho de capital declarado, sem rendimento correspondente visível, sem registro de destino. FIDC NP é estrutura sofisticada e incomum para pessoa física — indica assessoria especializada e planejamento patrimonial ativo.<br><br>
+      <strong>Hipótese mais provável:</strong> os R$ 524.293 migraram para o Mafra FIP no mesmo período — o que explicaria por que as cotas tinham valor suficiente para serem "vendidas" a Maria Belen em jun/2022. Se confirmado, o dinheiro que gerou a dívida artificial de Maria Belen era patrimônio comum do casal disfarçado de investimento pessoal de Luciano.<br><br>
+      <strong>Vínculo Planner:</strong> Luciano tinha dois veículos distintos do grupo Planner — FIDC AG42 (Planner Corretora) e Mafra FIP (Planner Trustee). Relacionamento institucional consolidado, não uso casual.</div>
+      <div class="tags"><span class="tag tag-red">R$ 524.293 sem destino declarado</span><span class="tag tag-warn">Cruzar com constituição de FJM/GAD/Marechal em 2021</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">Necton FIP Multiestratégia — cota subordinada de R$ 85.678</div>
+      <div class="card-body">Em 31/12/2021 Luciano tinha R$ 85.678,75 no Necton FIP Multiestratégia (cota subordinada, CNPJ 52.904.364/0001-08). A posição foi iniciada ao longo de 2021 (era R$ 0 em dez/2020) e gerou R$ 26.907 em rendimentos — 63% de todos os rendimentos financeiros declarados por Luciano em 2021. Cota subordinada de FIP é estrutura sofisticada tipicamente usada para participações societárias indiretas — não é investimento comum de pessoa física. Indica planejamento patrimonial ativo. <strong>A posição em 2022 e 2023 ainda não foi obtida</strong> — se foi liquidada ou transferida próxima à separação (jul/2023), pode configurar mais um movimento de ocultação — a confirmar.</div>
+      <div class="tags"><span class="tag tag-red">Estrutura societária sofisticada</span><span class="tag tag-warn">Posição 2022–2023 urgente</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">IR — Mafra FIP ausente em 2021 — linha do tempo crítica</div>
+      <div class="card-body">As cotas do Mafra FIP não aparecem na declaração de 2021 — o CCV foi assinado em 03/06/2022, após o fechamento deste exercício. Linha do tempo do esquema: (1) 2021: liquida R$ 1,95M em aplicações financeiras; (2) jun/2022: "vende" cotas do Mafra para Maria Belen criando dívida artificial de R$ 190.132; (3) jul/2023: separação; (4) mai–jun/2024: cobra a "dívida" recebendo R$ 1.010.000. Se o ganho de capital da cessão do Mafra não foi declarado no exercício 2023, é omissão fiscal — reforça que o CCV foi instrumento formal, não operação real.</div>
+      <div class="tags"><span class="tag tag-red">Linha do tempo do esquema documentada</span></div>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-title">CIA AFLB e CIA Vinhos — valor real provavelmente muito superior ao declarado</div>
+      <div class="card-body">Ambas declaradas a valor histórico de R$ 1/ação ou quota: AFLB R$ 5.000 (5.000 ações) e CIA Vinhos R$ 108.500 (108.500 quotas). O valor de mercado real pode ser muito superior — a CIA Vinhos pode ter estoque de vinhos de guarda (ativo que valoriza), imóveis, contratos de exclusividade. A CIA AFLB pode ter participações em outras empresas. Para a partilha, perícia contábil especializada nessas duas empresas é uma das ações mais estratégicas do caso.</div>
+      <div class="tags"><span class="tag tag-red">Perícia contábil urgente — valor real desconhecido</span></div>
+    </div>
+
+
+
+    <div class="card card-danger">
+      <div class="card-title">Santander — investimentos declarados em nome de Maria Belen dentro do IR de Luciano</div>
+      <div class="card-body">No IR 2022 de Luciano, há um item de investimentos Santander que discrimina explicitamente: "(LUCIANO - 855.371,60 MARIA - 49.726,39)" em 2019 e "(LUCIANO - 172.806,81 MARIA - 66.181,56)" em 2020. Luciano declarava investimentos no nome de Maria Belen dentro da própria declaração — evidência adicional de confusão patrimonial deliberada.</div>
+      <div class="tags"><span class="tag tag-red">Confusão patrimonial documentada</span></div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section" id="timeline">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Linha do tempo</span>
+      <div class="section-divider"></div>
+    </div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">16/10/2010</div>
+          <div class="tl-text"><strong>Casamento civil.</strong> Comunhão parcial de bens — confirmado pela certidão. 24º Subdistrito Indianópolis/SP.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">13/04/2018</div>
+          <div class="tl-text">Compra do apartamento Rua Michigan 1150, AP 91 — R$ 1.890.000. <strong>Matrícula em nome de ambos — Luciano e Maria Belen.</strong> Financiamento Santander R$ 500.000.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Jun/2021</div>
+          <div class="tl-text">Abertura em rajada de 4 contas no CPF de Maria Belen: PagSeguro, Nubank, XP Investimentos, Itaú CV. Conta XP (5649287) aberta em 07/06/2021 com endereço bressan.mbpf@gmail.com criado por Luciano.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Nov/2021</div>
+          <div class="tl-text">Início da posição ATMP3 na XP — R$ 294.430 aplicados. Operações em bolsa em conta que Maria Belen não controlava.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">03/06/2022</div>
+          <div class="tl-text"><strong>Assinatura dos dois CCVs</strong> — Mafra FIP (R$ 190.132) e AG42 FIDC NP (R$ 281.514), total R$ 471.647. CPF de Maria Belen incorreto em ambos. 13 meses antes da separação de corpos.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Set/2022</div>
+          <div class="tl-text">Abertura simultânea de 3 contas BTG (Asset, Banco, CTVM) — todas no CPF de Maria Belen. Maria Belen nunca teve acesso ao BTG.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">05/10/2022</div>
+          <div class="tl-text"><strong>Primeira declaração formal de separação</strong> — Maria Belen diz via WhatsApp: "Não quero mais viver com você. Vou falar com um advogado." Luciano reconhece o direito de separação. Possível marco para retroação da data de comunicação dos bens.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">Fev/2023</div>
+          <div class="tl-text"><strong>Pico patrimonial XP: R$ 3.671.057.</strong> A partir daqui começa o esvaziamento sistemático.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">12/04/2023</div>
+          <div class="tl-text"><strong>Luciano propõe contratar advogado</strong> via WhatsApp — três meses antes da separação de corpos. Ciência plena da separação iminente durante todas as movimentações patrimoniais subsequentes.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">Jul/2023</div>
+          <div class="tl-text"><strong>Separação de corpos.</strong> Cartão Black de Luciano continua sendo debitado na conta de Maria Belen após a separação.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Ago/2023</div>
+          <div class="tl-text">TED de R$ 200.000 para destino não identificado (código 03e79719). Saídas mensais via TED para conta de Luciano continuam ao longo de 2023 — total do ano acima de R$ 2 milhões retirados.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Set/2023</div>
+          <div class="tl-text">Falecimento de Afonso Bressan Filho (pai de Luciano). Possível herança.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">19/03/2024</div>
+          <div class="tl-text"><strong>Luciano propõe partilha informal via WhatsApp</strong> — reconhece patrimônio de R$ 6,5M+ (ap R$ 4M + R$ 500k para Maria Belen, R$ 2M para Luciano). Declara falsamente "não tenho conta em banco" e "a empresa não vale nada". Proposta não aceita por Maria Belen.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">16/05/2024</div>
+          <div class="tl-text"><strong>Luciano obtém token da conta XP via WhatsApp.</strong> Maria Belen fornece o token sem saber o que se seguiria. No dia seguinte chegam TEDs da XP de R$ 968.766 na conta de Maria Belen.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">17–20/05/2024</div>
+          <div class="tl-text"><strong>Três Pix de R$ 290.000 cada</strong> enviados a Luciano = R$ 870.000.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">05/06/2024</div>
+          <div class="tl-text">Último Pix de R$ 140.000 para Luciano. CDB resgatado antecipadamente (49 dias). Encerramento operacional da conta Itaú de Maria Belen.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">07/06/2024</div>
+          <div class="tl-text">Pers Black cancelado. Débitos Eletropaulo cancelados.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">28/08/2024</div>
+          <div class="tl-text">R$ 600.000 saem da conta BMP de Luciano para GAD Serviços em um único dia.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Set/2024</div>
+          <div class="tl-text">Acordo de R$ 700.000 + imóvel em negociação. Troca para advogada Veridiana Fraga.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">28/01/2025</div>
+          <div class="tl-text"><strong>Divórcio decretado.</strong> Partilha ainda em litígio.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DÚVIDAS -->
+  <section class="section" id="duvidas">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Dúvidas pendentes</span>
+      <div class="section-divider"></div>
+    </div>
+    <div class="card">
+      <div class="duvida">
+        <div class="duvida-num">01</div>
+        <div>
+          <div class="duvida-title">TED R$ 200.000 de agosto/2023</div>
+          <div class="duvida-body">Em 18/08/2023 saiu uma TED de R$ 200.000 identificada como "INT TED D 03e79719" — destino não identificado. Para onde foi esse valor?<br><em style="color:var(--text3);font-size:12px">Por que importa: R$ 200.000 saídos logo após a separação de corpos (jul/2023) sem destino identificado. Se for prova de dissipação patrimonial pós-separação, pode ser incluído nos pedidos de partilha e responsabilização.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">02</div>
+        <div>
+          <div class="duvida-title">Gravações das ligações no Itaú</div>
+          <div class="duvida-body">Nunca foram solicitadas. Ainda podem ser requeridas (prazo 5 anos). Provariam quem ligou se passando por Maria Belen.<br><em style="color:var(--text3);font-size:12px">Por que importa: estabeleceria fraude de identidade comprovada — elemento central da tese de controle abusivo das contas. Fortalece pedido de nulidade das movimentações feitas por telefone.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">03</div>
+        <div>
+          <div class="duvida-title">Valor real da AFLB Sociedade e Participações</div>
+          <div class="duvida-body">Declarada por R$ 5.000 (valor nominal). Qual o valor real de mercado? Qual o objeto social e patrimônio da empresa?<br><em style="color:var(--text3);font-size:12px">Por que importa: o valor histórico declarado por Luciano provavelmente não reflete o valor real. Se a empresa tiver ativos, participações ou faturamento relevante, a diferença deve entrar na partilha. Sem perícia, Luciano pode manter essa subavaliação.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">04</div>
+        <div>
+          <div class="duvida-title">Saldo da previdência Visão Prev</div>
+          <div class="duvida-body">Luciano pagou R$ 83.681 em 2021. Qual o saldo acumulado atual? É partilhável?<br><em style="color:var(--text3);font-size:12px">Por que importa: plano PGBL com contribuições feitas com renda do casal durante o casamento é geralmente considerado patrimônio comum. Sem saber o saldo, esse ativo fica fora da partilha. Ofício judicial à Visão Prev (CNPJ 07.205.215) é necessário.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">05</div>
+        <div>
+          <div class="duvida-title">Conta BTG — extratos nunca obtidos</div>
+          <div class="duvida-body">3 contas abertas no CPF de Maria Belen. Maria Belen nunca teve acesso. Requer ofício judicial para obter extratos e saldos.<br><em style="color:var(--text3);font-size:12px">Por que importa: a maior entrada pontual da conta Itaú de Maria Belen (R$ 479.869 em dez/2022) veio do BTG. Sem os extratos BTG não é possível saber quanto havia nessas contas, de onde veio o dinheiro, nem se ainda há saldo remanescente a incluir na partilha.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">06</div>
+        <div>
+          <div class="duvida-title">✅ RESOLVIDO — FJM SER = FJM Serviços Administrativos Ltda</div>
+          <div class="duvida-body">CNPJ 48.189.064/0001-09. Creditou ≈ R$ 941.000 na conta BMP de Luciano. Opera pelo Banco Inter. Investigar quadro societário na JUCESP.</div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">07</div>
+        <div>
+          <div class="duvida-title">✅ RESOLVIDO — "MARIA B" é Maria Belen (conta Santander ag. 1755)</div>
+          <div class="duvida-body">Confirmado por Maria Belen: "MARIA B" é a sua própria conta no Santander (ag. 1755). Os Pix da conta Itaú iam para essa conta Santander, de onde saíam para outros destinos controlados por Luciano. Os extratos do Santander continuam sendo urgentes para rastrear o destino final dos recursos.</div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">08</div>
+        <div>
+          <div class="duvida-title">Qual empresa paga Simples Nacional pela conta Itaú de Maria Belen?</div>
+          <div class="duvida-body">Em jan/24 foi pago R$ 26.109 de DAS (Simples Nacional) debitado da conta Itaú de Maria Belen (ag. 9652, cc. 04297-0). Guias mensais de R$ 15-19k identificadas em outros meses correspondem a faturamento de R$ 500k–800k/mês — não é MEI. Empresa não identificada. Em nome de quem está registrada?<br><em style="color:var(--text3);font-size:12px">Por que importa: se a empresa estiver em nome de Maria Belen sem o conhecimento de Maria Belen, é mais um elemento de uso indevido do CPF. Se estiver em nome de Luciano ou de terceiro, os ativos dessa empresa podem ser patrimônio comum oculto — possivelmente a maior lacuna patrimonial ainda não mapeada.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">09</div>
+        <div>
+          <div class="duvida-title">Placa GBB-6708 — de quem é o veículo?</div>
+          <div class="duvida-body">IPVA pago em jan/24 (R$ 3.281). Placa rastreável no DETRAN-SP para identificar titular e modelo. Pode estar relacionada aos gastos na Autostar (R$ 12.335 em nov/23 e abr/24, classificados como "VEÍCULOS").<br><em style="color:var(--text3);font-size:12px">Por que importa: se o veículo estiver em nome de Luciano e foi adquirido durante o casamento ou com recursos comuns, é bem partilhável. Consulta pública no DETRAN-SP leva menos de 5 minutos.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">10</div>
+        <div>
+          <div class="duvida-title">TED do BTG de R$ 479.869 em dez/22 — qual conta de origem?</div>
+          <div class="duvida-body">A maior entrada pontual de toda a série veio do Banco BTG (código 208) em nome de Maria Belen. Qual das 3 contas BTG no CPF de Maria Belen originou essa TED? Reforça urgência de obter extratos BTG via ofício judicial.<br><em style="color:var(--text3);font-size:12px">Por que importa: R$ 479.869 é um valor expressivo. Se havia mais recursos no BTG além dessa TED, o saldo remanescente deve constar na partilha. Sem os extratos, esse patrimônio permanece invisível ao processo.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">11</div>
+        <div>
+          <div class="duvida-title">Quem é MARCELA — recebeu R$ 50.000 em nov/22?</div>
+          <div class="duvida-body">Aparece uma única vez recebendo R$ 50.000 em 11/11/2022. Nunca mais aparece na série. Pode ser sócia, familiar ou intermediária do esquema.<br><em style="color:var(--text3);font-size:12px">Por que importa: R$ 50.000 em transferência única para destinatário não identificado pode ser dissipação de patrimônio comum. Se Marcela for pessoa ligada a Luciano, pode indicar ocultação de recursos via terceiros.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">12</div>
+        <div>
+          <div class="duvida-title">PM Curitiba R$ 17.600 em nov/22 — o que é?</div>
+          <div class="duvida-body">Código 213329292, quatro vezes maior que os pagamentos posteriores de R$ 4.400. Pode ser pagamento inicial de contrato, IPTU, vaga ou taxa municipal. Luciano é natural de Curitiba e tem família na cidade. Pagamentos à Prefeitura de Curitiba podem ser IPTU de imóvel da família ou outra taxa municipal.<br><em style="color:var(--text3);font-size:12px">Por que importa: se houver imóvel em Curitiba não declarado no IR, é bem comum não incluído na partilha. Verificar se há imóveis em Curitiba não declarados no IR.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">13</div>
+        <div>
+          <div class="duvida-title">Qual empresa tem DAS do Simples Nacional pago pela conta Itaú de Maria Belen?</div>
+          <div class="duvida-body">Guias de R$ 15-19k/mês debitadas da conta Itaú de Maria Belen (ag. 9652, cc. 04297-0) correspondem a faturamento de R$ 500k–800k/mês. Não é MEI. A receita da empresa não entra na conta — apenas os tributos saem. Onde está o dinheiro que essa empresa fatura?<br><em style="color:var(--text3);font-size:12px">Por que importa: uma empresa com faturamento de R$ 500k–800k/mês representa patrimônio potencial muito significativo. Se constituída durante o casamento com recursos comuns, seus ativos e faturamento acumulado entram na partilha. Identificar essa empresa é prioritário.</em></div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">14</div>
+        <div>
+          <div class="duvida-title">Quem é RODRIGO — recebeu R$ 100.000 em out/22?</div>
+          <div class="duvida-body">Único registro. CDB resgatado especificamente para cobrir esse pagamento. Pode ser compra de bem, quitação de dívida ou intermediário.<br><em style="color:var(--text3);font-size:12px">Por que importa: R$ 100.000 saídos em out/2022 — após a primeira declaração de separação (05/10/2022) — para destinatário não identificado. Se configurar dissipação pós-separação, pode ser incluído na responsabilização. Identificar RODRIGO via ofício ao Itaú pelo número da transação.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">15</div>
+        <div>
+          <div class="duvida-title">Quem é o credor do título fixo INT 109000...?</div>
+          <div class="duvida-body">Numeração sequencial crescente, valores ~R$ 17-18k/mês por pelo menos 5 meses consecutivos. Total pago: R$ 99k+. Pode ser parcela de financiamento, consignado ou contrato fixo. O Itaú pode identificar o credor com o número do título.<br><em style="color:var(--text3);font-size:12px">Por que importa: R$ 99k+ pagos ao mesmo credor desconhecido. Se for financiamento de bem adquirido durante o casamento, o bem correspondente deve constar na partilha. Se for dívida pessoal de Luciano paga com recursos comuns, é mais um desvio a documentar.</em></div>
+        </div>
+      </div>
+      <div class="duvida">
+        <div class="duvida-num">16</div>
+        <div>
+          <div class="duvida-title">✅ RESOLVIDO — GAD SER = GAD Serviços Ltda</div>
+          <div class="duvida-body">CNPJ 51.696.757/0001-00. Recebeu ≈ R$ 1.011.000 da conta BMP de Luciano — destino final do dinheiro de Maria Belen. CNPJ sequencial ao Marechal Serviços (51.696.781). Investigar quadro societário urgente.</div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">17</div>
+        <div>
+          <div class="duvida-title">✅ RESOLVIDO — Regime de bens: Comunhão Parcial</div>
+          <div class="duvida-body">Certidão de casamento confirma: 16/10/2010, comunhão parcial de bens, 24º Subdistrito Indianópolis/SP. Todos os ativos adquiridos durante o casamento são bens comuns sujeitos à meação. Elizabeth Maio Fernandes Bressan confirmada como mãe de Luciano — mesma Elizabeth da conta BMP.</div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">18</div>
+        <div>
+          <div class="duvida-title">As cotas do Mafra estão registradas em nome de quem na CVM?</div>
+          <div class="duvida-body">Se ainda estão em nome de Luciano, o CCV nunca foi efetivado na prática — o que reforça a hipótese de simulação. Consulta na CVM e ofício à Planner Trustee DTVM (CNPJ 67.030.395/0001-46).<br><em style="color:var(--text3);font-size:12px">Por que importa: se as cotas nunca saíram do nome de Luciano na CVM, o contrato de compra e venda é uma ficção jurídica — o que torna o argumento de simulação muito mais forte e facilita a anulação do CCV e a inclusão das cotas na partilha pelo valor real.</em></div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">19</div>
+        <div>
+          <div class="duvida-title">O escritório Ortuzar representa quem no Mafra FIP?</div>
+          <div class="duvida-body">Raul e Nicolas Ortuzar Ramirez detêm 35% do fundo. A Ortuzar Sociedade Individual de Advocacia pagou R$ 1.484 a Luciano em abr/2024. Investigar se o escritório representa o fundo, Luciano, ou ambos — conflito de interesses grave.<br><em style="color:var(--text3);font-size:12px">Por que importa: se o escritório Ortuzar representa tanto o fundo quanto Luciano, há conflito de interesses que pode invalidar atos praticados em nome do fundo — incluindo o próprio CCV. Também pode indicar que Ortuzar é sócio oculto de Luciano em outras estruturas.</em></div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">20</div>
+        <div>
+          <div class="duvida-title">Quem é Cassiano Ricardo de Paula Campos (CPF 164.246.568-20)?</div>
+          <div class="duvida-body">Recebeu R$ 100.000 da conta BMP de Luciano (R$ 60k + R$ 40k). Antonio Carlos de Paula Campos aparece com R$ 32,75 — possivelmente parentes. Relação com Luciano não identificada.<br><em style="color:var(--text3);font-size:12px">Por que importa: R$ 100.000 transferidos para pessoa não identificada após a separação pode ser dissipação de patrimônio comum via terceiros. Se Cassiano tiver vínculo societário com Luciano, o valor pode ser patrimônio oculto.</em></div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">21</div>
+        <div>
+          <div class="duvida-title">Luciano é herdeiro de Afonso Bressan Filho?</div>
+          <div class="duvida-body">Afonso Bressan Filho (CPF 002.166.239-87) faleceu em 14/09/2023 — dois meses após a separação. Sobrenome Bressan confirma parentesco com Luciano. Rodrigo Afonso Bressan (Londrina/PR) solicitou busca de testamento — provavelmente irmão de Luciano. Sem testamento, herança segue sucessão legítima. Dependendo da data de comunicação de bens fixada pelo juiz, herança pode ou não integrar a meação.<br><em style="color:var(--text3);font-size:12px">Por que importa: se o juiz fixar o marco da comunicação de bens em 05/10/2022 (primeira declaração de separação) ou 12/04/2023 (Luciano propõe advogado), a herança recebida em set/2023 não entra na meação. Se o marco for a separação de corpos (jul/2023), depende do exato timing. A advogada deve requerer informação sobre o inventário de Afonso Bressan Filho junto ao TJPR.</em></div>
+        </div>
+      </div>
+
+      <div class="duvida">
+        <div class="duvida-num">22</div>
+        <div>
+          <div class="duvida-title">Rodrigo Afonso Bressan tem participação em empresas ligadas a Luciano?</div>
+          <div class="duvida-body">Londrina/PR. Possível irmão de Luciano. Solicitante da busca de testamento de Afonso Bressan Filho. Verificar participação societária na JUCESP e Receita Federal — pode ser sócio oculto em FJM, GAD, Marechal ou outras empresas do esquema.<br><em style="color:var(--text3);font-size:12px">Por que importa: se Rodrigo for sócio das empresas que receberam recursos do casal, o esquema de ocultação patrimonial envolve toda a família Bressan — o que fortalece a tese de fraude organizada e amplia os réus em eventual ação de anulação.</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="status">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <span class="section-title">Status das pastas</span>
+      <div class="section-divider"></div>
+    </div>
+    <div class="card">
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">XP Investimentos — 8 PDFs + relatórios de performance</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">Contas CPF Belen — CCS e Chaves Pix (Banco Central)</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">WhatsApp Chat — conversas advogados, comprovantes, fotos</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">IR — Declarações de Luciano (2021) e de Maria Belen (2021)</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-warn"></div><div class="status-label">BTG — e-mails de atendimento (sem extrato obtido)</div><div class="status-tag">Parcial</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">Itaú — 40 PDFs — todos os meses analisados (out/22 a ago/24)</div><div class="status-tag">Completo</div></div>
+      <div class="status-row"><div class="status-dot dot-warn"></div><div class="status-label">B3 — 3 arquivos analisados (extrato mai/24 + e-mail cadastro). Valores das operações zerados no extrato. Extrato ampliado jan/23–dez/24 ainda não obtido.</div><div class="status-tag">Parcial</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">BMP — conta de Luciano (76820-0). jan/2024–nov/2025. FJM, GAD, Marechal, Ligo/SAGO identificados com CNPJs.</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-warn"></div><div class="status-label">Necton — IR 2021 de Luciano. Posição R$ 85.678 no Necton FIP Multiestratégia (cota subordinada). Posição 2022–2023 ainda não obtida.</div><div class="status-tag">Parcial</div></div>
+      <div class="status-row"><div class="status-dot dot-warn"></div><div class="status-label">Planner — IR 2021 de Luciano. FIDC AG42 NP (Planner Corretora) zerou R$ 524.293 entre 2020–2021 sem rastro declarado. Informe de rendimentos e nota de resgate ainda não obtidos.</div><div class="status-tag">Parcial</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">Trustee — AG42 FIDC NP (CNPJ 28.065.338). Dois CCVs de R$ 471.647 total. Conta encerrada data desconhecida. Bio M Serviços identificada.</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-warn"></div><div class="status-label">Visão Prev — IR 2021 de Luciano. Contribuição R$ 83.681 (PGBL). Saldo acumulado e extrato completo ainda não obtidos.</div><div class="status-tag">Parcial</div></div>
+      <div class="status-row"><div class="status-dot dot-warn"></div><div class="status-label">Vinicola — apenas IR 2021 de Luciano (já analisado). Valor real da CIA Investimentos em Vinhos (CNPJ 39.489.947) desconhecido — contrato social, balanço e certidão JUCESP ainda não obtidos.</div><div class="status-tag">Parcial</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">Abuso Psicológico — Token XP 16/05/2024 documentado. Veículo R$ 600k confirmado. Controle financeiro admitido.</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-gray"></div><div class="status-label">IR anos anteriores e posteriores</div><div class="status-tag">Pendente</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">MAFRA — CCV de jun/2022, cotas do Mafra FIP. Explica os R$ 1.010.000. Ortuzar identificado como cotista dominante.</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">RJ — Recuperação Judicial da ATMA Participações S.A. (ATPM3). LIQ Corp é subsidiária da ATMA — mesma empresa que pagou R$ 660k de renda a Luciano em 2021. Hipótese: AG42 FIDC pode ser credor da ATMA.</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">SEP CORPOS — Certidão de casamento (comunhão parcial confirmada) + WhatsApp out/2022 e abr/2023 (marcos de separação).</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">ACEITE PROPOSTA — WhatsApp 19/03/2024. Luciano reconhece patrimônio R$ 6,5M+. Declarações falsas verificáveis. Esvaziamento seguiu à recusa.</div><div class="status-tag">Analisada</div></div>
+      <div class="status-row"><div class="status-dot dot-gray"></div><div class="status-label">FEED — Não analisada. Maria Belen está organizando o material (volume grande e misturado). Analisar quando organizado.</div><div class="status-tag">Pendente</div></div>
+      <div class="status-row"><div class="status-dot dot-green"></div><div class="status-label">Documentos avulsos (papelada) — Roteiro CFO LIQ Corp + rascunhos offshore FIP Nilai (Bahamas/Delaware/Planner) + planilha repasses eleitorais Contax R$ 11,8M. Material sensível — avaliar com criminalista.</div><div class="status-tag">Analisados</div></div>
+    </div>
+  </section>
+
+</main>
+
+</div><!-- /content -->
+
+<footer>
+  Caso Maria Belen × Luciano Bressan &nbsp;·&nbsp; Análise patrimonial investigativa &nbsp;·&nbsp; Uso restrito &nbsp;·&nbsp; <span id="footer-date"></span>
+</footer>
+
+<script>
+  const d = new Date();
+  const dateStr = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+  document.getElementById('data-atual').textContent = dateStr;
+  const footerDate = document.getElementById('footer-date');
+  if (footerDate) footerDate.textContent = dateStr;
+
+  const sections = document.querySelectorAll('section[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    sidebarLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  sidebarLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
