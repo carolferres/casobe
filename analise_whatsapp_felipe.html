@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Análise WhatsApp — Chat Maria × Felipe (filho)</title>
+<style>
+  :root {
+    --tinta: #1a1814;
+    --tinta-suave: #4a453d;
+    --papel: #faf7f0;
+    --papel-bege: #f0ebdd;
+    --linha: #c8bfa8;
+    --vermelho: #7a1f1a;
+    --vermelho-claro: #f5e8e6;
+    --ambar: #8a5a0e;
+    --ambar-claro: #faefd4;
+    --verde: #2d5530;
+    --verde-claro: #e6ede6;
+    --azul: #1e3a5f;
+    --azul-claro: #e3ebf5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Charter', 'Iowan Old Style', 'Georgia', 'Times New Roman', serif;
+    color: var(--tinta);
+    background: var(--papel);
+    line-height: 1.55;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 64px 80px 64px;
+  }
+  header.cabecalho {
+    border-bottom: 3px double var(--tinta);
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+  }
+  .pre-titulo {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--vermelho);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Charter', 'Iowan Old Style', 'Georgia', serif;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+  .subtitulo {
+    font-style: italic;
+    color: var(--tinta-suave);
+    font-size: 17px;
+    margin-bottom: 24px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--linha);
+    padding-top: 18px;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  }
+  .meta-grid > div {
+    border-right: 1px solid var(--linha);
+    padding-right: 16px;
+  }
+  .meta-grid > div:last-child { border-right: none; }
+  .meta-label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--tinta-suave);
+    margin-bottom: 4px;
+  }
+  .meta-valor {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  h2 {
+    font-family: 'Charter', 'Iowan Old Style', 'Georgia', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--tinta);
+  }
+  h2 .numeracao {
+    color: var(--vermelho);
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 2px;
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: var(--tinta);
+  }
+  h4 {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--vermelho);
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 12px; }
+  ul, ol { margin-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .aviso {
+    background: var(--ambar-claro);
+    border-left: 4px solid var(--ambar);
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+  .aviso strong { color: var(--ambar); }
+  .aviso-critico {
+    background: var(--vermelho-claro);
+    border-left: 4px solid var(--vermelho);
+    padding: 18px 22px;
+    margin: 28px 0;
+    font-size: 14px;
+  }
+  .aviso-critico strong { color: var(--vermelho); }
+  .destaque {
+    background: var(--vermelho-claro);
+    border-left: 4px solid var(--vermelho);
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .destaque h4 { margin-top: 0; color: var(--vermelho); }
+  .trecho {
+    background: var(--papel-bege);
+    border-left: 3px solid var(--linha);
+    padding: 12px 18px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .trecho .ts {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .trecho.maria { border-left-color: var(--azul); background: var(--azul-claro); }
+  .trecho.filho { border-left-color: var(--verde); background: var(--verde-claro); }
+  .trecho.critico { border-left-color: var(--vermelho); background: var(--vermelho-claro); }
+  .trecho .legenda {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tinta-suave);
+    margin-top: 8px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .dialogo {
+    background: var(--papel-bege);
+    border: 1px solid var(--linha);
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .dialogo .linha {
+    margin-bottom: 6px;
+    padding-left: 110px;
+    position: relative;
+    min-height: 22px;
+  }
+  .dialogo .linha .autor {
+    position: absolute;
+    left: 0;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--tinta-suave);
+    width: 95px;
+    text-align: right;
+  }
+  .dialogo .linha.m .autor { color: var(--azul); }
+  .dialogo .linha.f .autor { color: var(--verde); }
+  .dialogo .linha.destaque {
+    background: var(--vermelho-claro);
+    border-left: 3px solid var(--vermelho);
+    padding-left: 110px;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-right: 20px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .dialogo .linha.destaque .autor {
+    left: 18px;
+  }
+  .dialogo .ts-head {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--linha);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px 0;
+    font-size: 13px;
+  }
+  th {
+    background: var(--tinta);
+    color: var(--papel);
+    text-align: left;
+    padding: 10px 12px;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  td {
+    border-bottom: 1px solid var(--linha);
+    padding: 10px 12px;
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--papel-bege); }
+  .toc {
+    background: var(--papel-bege);
+    border: 1px solid var(--linha);
+    padding: 24px 28px;
+    margin: 32px 0 48px 0;
+  }
+  .toc h3 {
+    margin-top: 0;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 12px;
+    color: var(--tinta-suave);
+    border-bottom: 1px solid var(--linha);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+  .toc ol { margin-left: 18px; }
+  .toc a { color: var(--tinta); text-decoration: none; }
+  .toc a:hover { color: var(--vermelho); text-decoration: underline; }
+  .toc li { font-size: 14px; }
+  .anchor { scroll-margin-top: 20px; }
+  footer.rodape {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--linha);
+    font-size: 12px;
+    color: var(--tinta-suave);
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  }
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .container { padding: 0; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="cabecalho">
+  <div class="pre-titulo">Análise Forense de Comunicações · Documento Interno · Chat 02</div>
+  <h1>Chat WhatsApp Maria × Felipe Bressan (filho)</h1>
+  <p class="subtitulo">Triagem com filtro restritivo — somente menções ao pai (Luciano) com relevância patrimonial</p>
+  <div class="meta-grid">
+    <div>
+      <div class="meta-label">Período coberto</div>
+      <div class="meta-valor">07·02·2018 → 09·04·2026</div>
+    </div>
+    <div>
+      <div class="meta-label">Total de mensagens</div>
+      <div class="meta-valor">8.258 mensagens</div>
+    </div>
+    <div>
+      <div class="meta-label">Anexos</div>
+      <div class="meta-valor">488 fotos · 394 stickers · 75 vídeos · 111 áudios · 22 PDFs</div>
+    </div>
+    <div>
+      <div class="meta-label">Filtro aplicado</div>
+      <div class="meta-valor">Somente patrimonial &amp; financeiro</div>
+    </div>
+  </div>
+</header>
+
+<div class="aviso-critico">
+<strong>Protocolo de tratamento aplicado.</strong> Este chat é entre Maria e seu filho Felipe Bressan, iniciado em fevereiro de 2018 quando ele era criança e atravessando toda a sua infância e adolescência. Foi processado com filtro restritivo, capturando exclusivamente mensagens que (i) mencionam o pai Luciano e (ii) trazem informação patrimonial, financeira, locacional ou comportamental relevante ao processo. Conteúdo rotineiro, escolar, emocional, lúdico ou íntimo entre mãe e filho foi descartado e não compõe este relatório. As citações foram reduzidas ao mínimo necessário para sustentar o achado.
+</div>
+
+<nav class="toc">
+  <h3>Índice analítico</h3>
+  <ol>
+    <li><a href="#sumario">Sumário dos achados</a></li>
+    <li><a href="#restaurantes">Restaurantes de alto padrão frequentados pelo pai</a></li>
+    <li><a href="#clube">Clube Pinheiros — quem paga as mensalidades</a></li>
+    <li><a href="#viagens">Viagens com o pai (datas e destinos)</a></li>
+    <li><a href="#presentes">Padrão de gastos com presentes para os filhos</a></li>
+    <li><a href="#karina">Núcleo Karina (companheira do pai)</a></li>
+    <li><a href="#nao-encontrado">O que NÃO foi encontrado</a></li>
+    <li><a href="#cruzamento">Cruzamentos com o relatório anterior</a></li>
+  </ol>
+</nav>
+
+<!-- ============== SUMARIO ============== -->
+<section id="sumario" class="anchor">
+<h2><span class="numeracao">§ 01</span>Sumário dos achados</h2>
+
+<p>Aplicado o filtro de relevância patrimonial, das 8.258 mensagens restaram <strong>≈ 35 mensagens com algum sinal útil</strong>. Destas, quatro são especialmente valiosas:</p>
+
+<ol>
+<li><strong>Identificação direta de dois restaurantes de alto padrão frequentados regularmente</strong> pelo pai aos finais de semana, com confirmação espontânea do filho em resposta a pergunta de Maria. Isso corrobora a estratégia probatória já registrada pelas advogadas em 13·05·2025 e 17·09·2025 sobre «restaurantes luxuosos» e «altíssimo padrão».</li>
+<li><strong>Confirmação informal de que Maria, e não Luciano, paga as mensalidades do Clube</strong> (Pinheiros), em diálogo natural de 07·10·2025.</li>
+<li><strong>Confirmação de viagem aérea</strong> em 02·11·2025 (Felipe envia «Já estamos no avião. Decolagem é 7:40») seguida de relato sobre presentes — perfume, tênis — que correlaciona com a referência das advogadas a «perfumes importados» como prova de capacidade econômica.</li>
+<li><strong>Viagem terrestre de longa distância</strong> em 20·11·2025 («5h34 de viagem», «7 pessoas no carro»), organizada pelo pai. Possível conexão com os deslocamentos a Laranjeiras mencionados na petição de 06·02·2026 das advogadas.</li>
+</ol>
+
+<p>Adicionalmente, há uma <strong>admissão informal espontânea</strong> registrada em 12·10·2024, onde o adolescente caracteriza o padrão de gastos do pai com os irmãos mais novos — registrada de forma sucinta no §05.</p>
+
+<p>O chat <strong>não contém</strong>: menções a empresas (GAD, Marechal, Trustee, AG42, Mafra, Contax, etc.), valores em moeda, transferências bancárias entre Luciano e o filho, prints de extratos ou comprovantes. É um chat estritamente pessoal — sua utilidade probatória vem de <em>indicadores indiretos do padrão de vida</em>, não de provas documentais financeiras.</p>
+
+</section>
+
+<!-- ============== RESTAURANTES ============== -->
+<section id="restaurantes" class="anchor">
+<h2><span class="numeracao">§ 02</span>Restaurantes de alto padrão frequentados pelo pai</h2>
+
+<p>Em 13·05·2025, a advogada Izabela Montagner havia formalizado no chat com Maria a necessidade de provar «que as crianças frequentam restaurantes luxuosos com ele». E em 17·09·2025, Veridiana Fraga confirmou: «O restaurante mencionado realmente é de altíssimo padrão». Os dois nomes específicos surgem aqui, em dois momentos:</p>
+
+<h3>Identificação 1 — Marena Cucina</h3>
+
+<div class="dialogo">
+<div class="ts-head">17 de setembro de 2025 · manhã</div>
+<div class="linha m"><span class="autor">Maria</span>Como chama mesmo o restaurante que o papai vai todo final de semana?</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Do ju? Marena</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Marena cucina</div>
+</div>
+
+<p>Esta troca tem três qualidades probatórias importantes:</p>
+<ul>
+<li>É <strong>espontânea</strong> — o filho responde naturalmente, sem perceber a relevância da pergunta.</li>
+<li>Estabelece <strong>regularidade</strong> — «todo final de semana» não é evento isolado.</li>
+<li>O nome do estabelecimento (<strong>Marena Cucina</strong>) cruza diretamente com o PDF <strong>Marena.pdf</strong> enviado pelas advogadas em 12·11·2025 para protocolo na ação de alimentos como prova documental do padrão de despesas.</li>
+</ul>
+
+<h3>Identificação 2 — 348 e Carlos</h3>
+
+<div class="dialogo">
+<div class="ts-head">5 de outubro de 2025 · 15:02</div>
+<div class="linha m"><span class="autor">Maria</span>Me conta do fds.. qual foi o super restaurante que vcs foram?</div>
+<div class="linha f"><span class="autor">Filho</span>Como assim?</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Fomos no 348</div>
+<div class="linha f destaque"><span class="autor">Filho</span>E em uma pizzaria chamada Carlos com o pai da karina</div>
+</div>
+
+<p><strong>348 Parrilla Porteña</strong> é uma churrascaria argentina de alto padrão localizada em Pinheiros / Itaim, com tickets médios elevados. <strong>Carlos</strong> (provavelmente Carlos Pizza, casa premium da Rua Bandeira Paulista) é também restaurante de padrão alto. A menção em uma única conversa de fim de semana de dois restaurantes desse nível, com a presença adicional do <strong>pai da Karina</strong> (núcleo social do pai), reforça o padrão de vida.</p>
+
+<div class="destaque">
+<h4>Restaurantes confirmados como rotina do pai</h4>
+<ol>
+<li><strong>Marena Cucina</strong> — frequência semanal («todo final de semana»). Há PDF probatório anexado nos autos (Marena.pdf, 12·11·2025).</li>
+<li><strong>348 Parrilla Porteña</strong> — frequência ao menos episódica em fins de semana com os filhos.</li>
+<li><strong>Carlos (pizzaria)</strong> — frequência ao menos episódica, em programas conjuntos com a família da Karina.</li>
+</ol>
+</div>
+
+</section>
+
+<!-- ============== CLUBE ============== -->
+<section id="clube" class="anchor">
+<h2><span class="numeracao">§ 03</span>Clube Pinheiros — quem paga as mensalidades</h2>
+
+<p>O grupo de WhatsApp com as advogadas registra em 29·09·2025 o pedido formal de «Prova de que o Clube está atrasado (tentativa de venda do Clube)» como um dos itens de prova a obter. O presente chat traz uma confirmação coloquial, não-coachada, em diálogo entre Maria e o filho duas semanas depois:</p>
+
+<div class="dialogo">
+<div class="ts-head">7 de outubro de 2025 · 14:34</div>
+<div class="linha f"><span class="autor">Filho</span>[onde vão?] Na pista. Do clube.</div>
+<div class="linha m destaque"><span class="autor">Maria</span>Preciso pagar o clube entao</div>
+<div class="linha f destaque"><span class="autor">Filho</span>O papai nao pagou?</div>
+<div class="linha m destaque"><span class="autor">Maria</span>Eu que pago. Vou pagar agora. Mas pode vir pegar o skate</div>
+</div>
+
+<p>O valor probatório desta troca está em três elementos combinados:</p>
+<ul>
+<li><strong>Surpresa do filho</strong> ao saber que a mãe é quem paga — sinaliza desinformação sobre quem custeia o quê na rotina das crianças.</li>
+<li><strong>Afirmação direta de Maria</strong> em registro escrito e datado: «Eu que pago».</li>
+<li>Identificação do clube — em 03·12·2021 o filho havia registrado «estamos aqui perto do Pinheiros (clube)», o que permite identificar a referência como <strong>Clube Atlético Paulistano / Esporte Clube Pinheiros</strong> (provavelmente Pinheiros, dada a referência verbal direta).</li>
+</ul>
+
+<p>Cruzar com a discussão do grupo das advogadas de 17·12·2024 sobre venda do título do Clube («pode seguir com a venda do título do Clube. Apenas pedimos que tudo seja devidamente formalizado, pois precisaremos apresentar a documentação no processo de partilha»). O título integra o patrimônio comum a partilhar e está em condição de inadimplência tributária / mensalidades.</p>
+
+</section>
+
+<!-- ============== VIAGENS ============== -->
+<section id="viagens" class="anchor">
+<h2><span class="numeracao">§ 04</span>Viagens com o pai (datas e destinos)</h2>
+
+<h3>4.1 Viagem aérea — 02·11·2025</h3>
+
+<div class="dialogo">
+<div class="ts-head">2 de novembro de 2025 · 19:09</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Ja estamos no avião</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Decolagem é 7:40</div>
+</div>
+
+<p>Sequência imediatamente seguida de uma lista de pertences que os meninos não trouxeram da viagem para a casa da mãe — incluindo «perfume, tênis e tudo mais», o que indica gastos correntes de vestuário/cosméticos custeados pelo núcleo do pai. Não há identificação do destino exato neste trecho do chat, mas a data (início de novembro) é compatível com retorno de viagem de feriado prolongado.</p>
+
+<h3>4.2 Viagem terrestre de longa distância — 20·11·2025</h3>
+
+<div class="dialogo">
+<div class="ts-head">20 de novembro de 2025 · 10:51-56</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Nunca mais vou ir viajar pra esse lugar. Com 7 pessoas no carro.</div>
+<div class="linha f"><span class="autor">Filho</span>Mas tá mais longe que Curitiba.</div>
+<div class="linha m"><span class="autor">Maria</span>Conversa com o papai. Joga o problema pra ele.</div>
+<div class="linha f destaque"><span class="autor">Filho</span>Quando eu vi o waze agora e vi que era 5:34 horas de viagem eu falei "6 horas??"</div>
+</div>
+
+<p>Elementos extraíveis:</p>
+<ul>
+<li>Destino a <strong>5h34 de São Paulo</strong>, mais longe que Curitiba — compatível com destinos em SC, RS, sul de MG, ou interior do PR/SP profundo.</li>
+<li><strong>7 pessoas no veículo</strong> — número que sugere o uso do Tiguan de 7 lugares (apesar de o veículo estar anunciado para venda em 02·10·2025) ou outro veículo de grande porte.</li>
+<li>Viagem organizada pelo pai, com a família estendida.</li>
+</ul>
+
+<div class="aviso">
+<strong>Cruzamento sugerido.</strong> Em 06·02·2026 a advogada Izabela registra «PROVA DE QUE: Crianças viajaram para Laranjeiras entre 15 e 28 de janeiro com Luciano». Laranjeiras (Rio de Janeiro, bairro) está ~6h de SP. Já o destino de 20·11·2025 é anterior a essa janela — pode ser viagem distinta. Vale consultar os filhos sobre o destino exato dessa viagem de novembro/2025 para incluir como evidência de capacidade financeira recorrente.
+</div>
+
+</section>
+
+<!-- ============== PRESENTES ============== -->
+<section id="presentes" class="anchor">
+<h2><span class="numeracao">§ 05</span>Padrão de gastos com presentes para os filhos</h2>
+
+<div class="aviso">
+Esta seção contém uma única menção textual, transcrita parcialmente por ser registro espontâneo do adolescente sobre dinâmica familiar interna. A inclusão se justifica por corroborar — sem terem sido provocadas — as afirmações que vinham sendo feitas pelas advogadas no outro chat sobre o padrão de consumo do pai com os filhos mais novos.
+</div>
+
+<div class="trecho filho">
+<div class="ts">12 de outubro de 2024 · 17:32</div>
+<p>«O papai dá tudo para ela [filha mais nova]. E ele [outro irmão]. Mas ele menos. E nada para mim. Tudo eu tenho que saber o modelo, qualidade e tudo para poder comprar. Eles compram tudo. E tudo que eles querem eles conseguem.»</p>
+<div class="legenda">Trecho preservado por ser admissão espontânea do filho sobre padrão de gastos diferencial do pai. A motivação aparente é queixa adolescente; o conteúdo probatório está apenas na confirmação de que «eles compram tudo, e tudo que eles querem eles conseguem» — incompatível com a alegação do pai (na contestação de 08·11·2024) de estar desempregado e em dificuldade.</div>
+</div>
+
+<p>Outras menções de presentes correlatas:</p>
+<ul>
+<li><strong>02·11·2025, 19:17</strong> — «Perfume, tenis e tudo mais» — lista de itens trazidos de viagem com o pai.</li>
+<li><strong>06·02·2026</strong> (cross-ref com chat das advogadas) — Izabela lista como prova a produzir: «Maria ganhou um tablet e um iphone; Meninos ganharam perfumes importados; Luciano comprou o material escolar e uniforme para o ano de 2026.» Os perfumes mencionados como importados pelas advogadas correspondem ao item «perfume» mencionado pelo Felipe três meses antes.</li>
+</ul>
+
+</section>
+
+<!-- ============== KARINA ============== -->
+<section id="karina" class="anchor">
+<h2><span class="numeracao">§ 06</span>Núcleo Karina (companheira do pai)</h2>
+
+<p>Surgem ao longo de 2025-2026 referências regulares a <strong>Karina</strong> e à família dela, integrando a rotina dos filhos com o pai. Em 04·11·2025 (no chat das advogadas) já havia sido registrado por Maria que existe um iPad presenteado pela Karina à filha mais nova com chip telefônico. As referências no chat com Felipe são consistentes:</p>
+
+<table>
+<thead><tr><th style="width: 140px;">Data</th><th>Conteúdo</th></tr></thead>
+<tbody>
+<tr><td>23·09·2025</td><td>«E também é da irmã da Karina» — núcleo familiar Karina ampliado.</td></tr>
+<tr><td>05·10·2025</td><td>Pizzaria Carlos «com o pai da Karina» — pai da Karina presente em programa familiar.</td></tr>
+<tr><td>10·10·2025</td><td>Maria comenta: «Eu achei que você fosse com a Karina.»</td></tr>
+<tr><td>09·11·2025</td><td>«A Karina ta subindo aqui» — frequência da Karina no apartamento.</td></tr>
+<tr><td>20·11·2025</td><td>«Ai a Karina olhou pra mim e eu dei um sorrisinho falso.» — presença na viagem terrestre longa.</td></tr>
+<tr><td>24·01·2026</td><td>«Fomos jantar na Karina e estamos voltando pra casa agora.» — jantar na residência da Karina.</td></tr>
+<tr><td>07·02·2026</td><td>«Estou com os pepe nenê, a Karina e a Maria fazendo exame de vista.» — Karina acompanha consulta médica da filha menor, sem comunicação a Maria (cruzar com a carta de 26·02·2026 redigida pelas advogadas, onde Maria reclama justamente que «levou as crianças no oftalmo sem meu conhecimento»).</td></tr>
+</tbody>
+</table>
+
+<p>O ponto de 07·02·2026 é o mais relevante: confirma diretamente que <strong>Karina conduziu a filha de 8 anos a consulta oftalmológica</strong>, episódio que se tornou objeto de reclamação formal pelas advogadas em 26·02·2026.</p>
+
+</section>
+
+<!-- ============== NAO ENCONTRADO ============== -->
+<section id="nao-encontrado" class="anchor">
+<h2><span class="numeracao">§ 07</span>O que NÃO foi encontrado</h2>
+
+<p>Para completude da análise — itens que <strong>poderiam</strong> aparecer em conversa com o filho mas <strong>não aparecem</strong>:</p>
+
+<ul>
+<li><strong>Nenhuma menção a empresas</strong> — não há referência a GAD, Marechal, FJM, Contax, Trustee, AG42, Mafra, Atma, Planner, Nesec ou Necton em nenhum momento do chat.</li>
+<li><strong>Nenhuma menção a valores em moeda associados ao pai</strong>. Os «R$» e Pix encontrados são exclusivamente entre Maria e o filho (mesada, jogos online, gastos escolares) ou entre o filho e amigos.</li>
+<li><strong>Nenhum print de extrato, comprovante de transferência ou documento financeiro</strong> circula entre Maria e o filho.</li>
+<li><strong>Nenhuma admissão direta do pai</strong> relatada pelo filho do tipo «pai me disse que tem X», «pai me contou que comprou Y». O padrão de busca por «pai disse / pai falou / pai contou» retornou zero ocorrências.</li>
+<li><strong>Nenhuma referência ao apartamento Michigan como propriedade financeira</strong>; só como «casa do papai» em sentido de moradia.</li>
+<li><strong>Nenhuma menção ao imóvel no Paraná, à empresa de agro, nem à transferência via Wise</strong> mencionadas pelas advogadas.</li>
+</ul>
+
+<p>Em outras palavras, o material útil do chat é estreito: <strong>indicadores secundários de padrão de vida</strong> (restaurantes, viagens, presentes, núcleo social Karina) e <strong>uma admissão informal de que Maria custeia o clube</strong>. Não há material primário sobre o esquema patrimonial.</p>
+
+</section>
+
+<!-- ============== CRUZAMENTO ============== -->
+<section id="cruzamento" class="anchor">
+<h2><span class="numeracao">§ 08</span>Cruzamentos com o relatório do chat das advogadas</h2>
+
+<p>Esquematização das peças deste chat que reforçam, datam ou complementam pontos já registrados no relatório do grupo «Divórcio — Maria Ferres»:</p>
+
+<table>
+<thead><tr><th style="width: 35%;">Ponto registrado no chat das advogadas</th><th>Reforço encontrado aqui</th></tr></thead>
+<tbody>
+<tr>
+<td>13·05·2025 — Izabela: «aguardamos [...] print comprovando que as crianças frequentam restaurantes luxuosos com ele.»</td>
+<td><strong>Marena Cucina</strong>, <strong>348 Parrilla Porteña</strong>, <strong>Carlos pizzaria</strong> identificados nominalmente em 17·09·2025 e 05·10·2025 (§02).</td>
+</tr>
+<tr>
+<td>17·09·2025 — Veri: «O restaurante mencionado realmente é de altíssimo padrão.»</td>
+<td>É a Marena Cucina — confirmado pelo filho na mesma data (§02).</td>
+</tr>
+<tr>
+<td>29·09·2025 — Lista de provas: «Prova de que o Clube está atrasado (tentativa de venda do Clube).»</td>
+<td>07·10·2025 — Diálogo Maria/Felipe: «O papai não pagou?» / «Eu que pago.» Admissão informal de que Maria custeia o clube (§03).</td>
+</tr>
+<tr>
+<td>04·11·2025 — Maria narra que a Karina deu iPad com chip à filha menor.</td>
+<td>Karina identificada como presença regular: jantares em sua residência (24·01·2026), participação em viagem (20·11·2025), e conduta de consulta oftalmológica da filha (07·02·2026 — §06).</td>
+</tr>
+<tr>
+<td>06·02·2026 — Izabela: «PROVA DE QUE meninos ganharam perfumes importados.»</td>
+<td>02·11·2025 — Felipe lista «perfume, tênis e tudo mais» entre os itens trazidos de viagem (§05).</td>
+</tr>
+<tr>
+<td>06·02·2026 — Izabela: «PROVA DE QUE crianças viajaram para Laranjeiras entre 15 e 28 de janeiro com Luciano.»</td>
+<td>Há uma viagem aérea em 02·11·2025 (destino não identificado) e viagem terrestre de 5h34 em 20·11·2025 (§04). Vale checar com Maria se o destino dessa viagem de novembro tem relação com Laranjeiras.</td>
+</tr>
+<tr>
+<td>26·02·2026 — Carta de Maria a Luciano: «levou as crianças no oftalmo sem meu conhecimento.»</td>
+<td>07·02·2026 — Felipe relata espontaneamente que está em consultório oftalmológico com a Karina (§06). Marcação temporal exata do episódio.</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<footer class="rodape">
+<p><strong>Análise gerada em</strong> 10·05·2026 a partir do arquivo <code>_chat.txt</code> exportado do WhatsApp.</p>
+<p>Documento de trabalho interno. Aplicado filtro restritivo: somente menções ao pai Luciano com relevância patrimonial; conteúdo pessoal do adolescente preservado. Datas seguem o padrão DD·MM·AAAA. Trechos transcritos entre aspas reproduzem o texto literal; identidade exata dos restaurantes 348 e Carlos depende de confirmação adicional (lista de candidatos com base no contexto geográfico SP).</p>
+</footer>
+
+</div>
+</body>
+</html>

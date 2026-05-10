@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Análise WhatsApp — Chat Direto Maria × Luciano</title>
+<style>
+  :root {
+    --tinta: #1a1814;
+    --tinta-suave: #4a453d;
+    --papel: #faf7f0;
+    --papel-bege: #f0ebdd;
+    --linha: #c8bfa8;
+    --vermelho: #7a1f1a;
+    --vermelho-claro: #f5e8e6;
+    --ambar: #8a5a0e;
+    --ambar-claro: #faefd4;
+    --verde: #2d5530;
+    --verde-claro: #e6ede6;
+    --azul: #1e3a5f;
+    --azul-claro: #e3ebf5;
+    --preto-luc: #2a1f1a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Charter', 'Iowan Old Style', 'Georgia', 'Times New Roman', serif;
+    color: var(--tinta);
+    background: var(--papel);
+    line-height: 1.55;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 64px 80px 64px;
+  }
+  header.cabecalho {
+    border-bottom: 3px double var(--tinta);
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+  }
+  .pre-titulo {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--vermelho);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Charter', 'Iowan Old Style', 'Georgia', serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+  .subtitulo {
+    font-style: italic;
+    color: var(--tinta-suave);
+    font-size: 17px;
+    margin-bottom: 24px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--linha);
+    padding-top: 18px;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  }
+  .meta-grid > div {
+    border-right: 1px solid var(--linha);
+    padding-right: 16px;
+  }
+  .meta-grid > div:last-child { border-right: none; }
+  .meta-label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--tinta-suave);
+    margin-bottom: 4px;
+  }
+  .meta-valor {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  h2 {
+    font-family: 'Charter', 'Iowan Old Style', 'Georgia', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--tinta);
+  }
+  h2 .numeracao {
+    color: var(--vermelho);
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 2px;
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: var(--tinta);
+  }
+  h4 {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--vermelho);
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 12px; }
+  ul, ol { margin-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+
+  .destaque {
+    background: var(--vermelho-claro);
+    border-left: 4px solid var(--vermelho);
+    padding: 18px 22px;
+    margin: 24px 0;
+  }
+  .destaque h4 { margin-top: 0; color: var(--vermelho); }
+
+  .bomba {
+    background: linear-gradient(to right, #f5e8e6 0%, #faf7f0 100%);
+    border: 2px solid var(--vermelho);
+    border-left: 6px solid var(--vermelho);
+    padding: 22px 26px;
+    margin: 30px 0;
+    position: relative;
+  }
+  .bomba::before {
+    content: '★';
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    color: var(--vermelho);
+    font-size: 22px;
+  }
+  .bomba .titulo-bomba {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--vermelho);
+    margin-bottom: 12px;
+  }
+
+  .dialogo {
+    background: var(--papel-bege);
+    border: 1px solid var(--linha);
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .dialogo .ts-head {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--linha);
+  }
+  .dialogo .linha {
+    margin-bottom: 8px;
+    padding-left: 100px;
+    position: relative;
+    min-height: 22px;
+  }
+  .dialogo .linha .autor {
+    position: absolute;
+    left: 0;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: 88px;
+    text-align: right;
+    line-height: 1.3;
+  }
+  .dialogo .linha .hora {
+    position: absolute;
+    left: 0;
+    top: 14px;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 9px;
+    color: var(--tinta-suave);
+    width: 88px;
+    text-align: right;
+    font-weight: 400;
+  }
+  .dialogo .linha.m .autor { color: var(--azul); }
+  .dialogo .linha.l .autor { color: var(--vermelho); }
+  .dialogo .linha.destaque {
+    background: var(--vermelho-claro);
+    border-left: 3px solid var(--vermelho);
+    padding-left: 100px;
+    margin-left: -22px;
+    margin-right: -22px;
+    padding-right: 22px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .dialogo .linha.destaque .autor,
+  .dialogo .linha.destaque .hora {
+    left: 18px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px 0;
+    font-size: 13px;
+  }
+  th {
+    background: var(--tinta);
+    color: var(--papel);
+    text-align: left;
+    padding: 10px 12px;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  td {
+    border-bottom: 1px solid var(--linha);
+    padding: 10px 12px;
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--papel-bege); }
+
+  .toc {
+    background: var(--papel-bege);
+    border: 1px solid var(--linha);
+    padding: 24px 28px;
+    margin: 32px 0 48px 0;
+  }
+  .toc h3 {
+    margin-top: 0;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 12px;
+    color: var(--tinta-suave);
+    border-bottom: 1px solid var(--linha);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+  .toc ol { margin-left: 18px; columns: 2; column-gap: 32px; }
+  .toc a { color: var(--tinta); text-decoration: none; }
+  .toc a:hover { color: var(--vermelho); text-decoration: underline; }
+  .toc li { font-size: 14px; break-inside: avoid; }
+  .anchor { scroll-margin-top: 20px; }
+
+  .url {
+    font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    background: var(--papel-bege);
+    padding: 2px 6px;
+    border: 1px solid var(--linha);
+    word-break: break-all;
+  }
+
+  .timeline {
+    margin: 30px 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .timeline li {
+    padding: 12px 18px;
+    border-left: 3px solid var(--linha);
+    margin-bottom: 8px;
+    background: var(--papel-bege);
+    font-size: 14px;
+  }
+  .timeline li.critico {
+    border-left-color: var(--vermelho);
+    background: var(--vermelho-claro);
+  }
+  .timeline .data {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--vermelho);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  footer.rodape {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--linha);
+    font-size: 12px;
+    color: var(--tinta-suave);
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  }
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .container { padding: 0; max-width: 100%; }
+    .bomba { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="cabecalho">
+  <div class="pre-titulo">Análise Forense de Comunicações · Documento Interno · Chat 03</div>
+  <h1>Chat Direto Luciano Bressan ↔ Maria Ferres</h1>
+  <p class="subtitulo">Comunicação entre cônjuges — janela crítica 2022-2026, do pré-RJ Contax ao divórcio</p>
+  <div class="meta-grid">
+    <div>
+      <div class="meta-label">Janela analisada</div>
+      <div class="meta-valor">Jan·2022 → Abr·2026</div>
+    </div>
+    <div>
+      <div class="meta-label">Mensagens no recorte</div>
+      <div class="meta-valor">8.644 (de 17.330 totais)</div>
+    </div>
+    <div>
+      <div class="meta-label">Anexos no chat completo</div>
+      <div class="meta-valor">1.578 fotos · 334 PDFs · 142 vídeos · 129 áudios</div>
+    </div>
+    <div>
+      <div class="meta-label">Status do material</div>
+      <div class="meta-valor">Comunicação direta da contraparte</div>
+    </div>
+  </div>
+</header>
+
+<div class="destaque">
+<h4>O valor probatório deste chat</h4>
+<p>Este é o material mais consequente da triagem realizada até aqui. Diferentemente do grupo das advogadas (relato unilateral) e do chat com o filho (testemunho indireto de adolescente), aqui temos <strong>comunicação direta entre os cônjuges, em primeira pessoa, com Luciano Bressan ditando instruções, fazendo admissões e descrevendo o próprio patrimônio em tempo real</strong>. Várias passagens cobrem o período entre o pedido de RJ da Contax (07·06·2022) e a abertura coordenada de contas em nome de Maria em corretoras de perfil reservado — exatamente o gargalo temporal que a tese de dissimulação patrimonial precisa documentar.</p>
+</div>
+
+<nav class="toc">
+<h3>Índice analítico</h3>
+<ol>
+<li><a href="#sumario">Sumário das peças-bomba</a></li>
+<li><a href="#orquestracao">Orquestração coordenada em nome de Maria (ago-set·2022)</a></li>
+<li><a href="#transferencia">Transferência ordenada de R$ 1,89 milhão (05·07·2022)</a></li>
+<li><a href="#admissoes">Admissões diretas de Luciano sobre patrimônio</a></li>
+<li><a href="#avaliacao">Avaliação do patrimônio total feita pelo próprio Luciano</a></li>
+<li><a href="#bmp">Confirmação direta de conta no BMP SCMEPP</a></li>
+<li><a href="#controle">Padrão de controle dos acessos financeiros</a></li>
+<li><a href="#perda-acesso">Quando Maria toma o controle (mar-jun·2024)</a></li>
+<li><a href="#timeline">Linha do tempo consolidada</a></li>
+<li><a href="#cruzamento">Cruzamento com os outros chats</a></li>
+</ol>
+</nav>
+
+<!-- ============== 1. SUMARIO ============== -->
+<section id="sumario" class="anchor">
+<h2><span class="numeracao">§ 01</span>Sumário das peças-bomba</h2>
+
+<p>A triagem categorizou 8.644 mensagens do período. Sete peças se destacam por valor probatório direto:</p>
+
+<ol>
+<li><strong>04·08·2022 e 17·08·2022</strong> — Luciano envia para Maria os links e PDFs de cadastro na <strong>Trustee DTVM / Planner</strong>, incluindo declaração de «investidor profissional». A mensagem é assinada «Luciano, boa tarde!» — é o e-mail do onboarding da corretora redirecionado por Luciano para Maria executar.</li>
+<li><strong>22·09·2022, 18:46</strong> — Luciano: «Estou abrindo uma conta no BTG, igual a da XP, pois tem alguns investimentos que são melhores lá. Pode assinar este questionário?» seguido às 19:17 de «Você vai por dinheiro lá, parte do que está na XP».</li>
+<li><strong>16·08·2022</strong> — sequência operacional sobre <strong>abertura da FJM</strong>: Luciano envia contato da Hermes Certificadora e indica testa de ferro («Ronado Arsego, da Ascon»), instruindo Maria a <strong>não mencionar a FJM</strong> no contato.</li>
+<li><strong>05·07·2022, 11:59</strong> — Luciano determina: «Transfere 1.890.000» (R$ 1,89 milhão). Maria pergunta se a gerente sabe; Luciano: «Não. Mas não é saque, é só transferência, e pra uma conta sua. Então não tem problema.» Transferência executada às 13:50.</li>
+<li><strong>19·03·2024, 21:45</strong> — Luciano: «<em>não existem ações da empresa. As que existem estão lá na XP em seu nome. <strong>E a empresa não vale nada. Ninguém paga nada por ela.</strong></em>»</li>
+<li><strong>19·03·2024, 21:39</strong> — Luciano: «<em>não posso nem ter conta em banco ou seguro de carro no meu nome.</em>» Admissão direta da operação por interposta pessoa.</li>
+<li><strong>03·06·2024, 16:34</strong> — Luciano: «<em>Se colocar meu nome, vai aparecer uma no <strong>BMP Scmepp</strong>.</em>» — confirmação espontânea de relacionamento com a instituição que as advogadas só identificariam meses depois.</li>
+</ol>
+
+</section>
+
+<!-- ============== 2. ORQUESTRACAO ============== -->
+<section id="orquestracao" class="anchor">
+<h2><span class="numeracao">§ 02</span>Orquestração coordenada em nome de Maria (ago–set·2022)</h2>
+
+<p>O período de 16 de agosto a 22 de setembro de 2022 — dois a três meses após o pedido de Recuperação Judicial da Contax — concentra a sequência operacional mais comprometedora. Em pouco mais de cinco semanas, Luciano coordena, em primeira pessoa por WhatsApp, quatro operações distintas no nome de Maria:</p>
+
+<h3>2.1 Abertura da FJM e instrução de discrição</h3>
+
+<div class="bomba">
+<div class="titulo-bomba">★ Peça-bomba 1</div>
+<div class="dialogo">
+<div class="ts-head">16 de agosto de 2022</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">14:48</span>[envia vCard]<br><em>Hermes Certificadora.vcf</em></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">14:51</span>Se precisar, pode falar que foi o <strong>Ronado Arsego, da Ascon</strong>, que te indicou</div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">16:06</span>Ligo e falo que quero abrir a empresa FJM?</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">16:09</span><strong>Não.</strong> Que você quer fazer um certificado digital e-CPF modelo A-1 pra você</div>
+</div>
+</div>
+
+<p>Três elementos analíticos:</p>
+<ul>
+<li>Luciano fornece <strong>nome de intermediário</strong> («Ronado Arsego, da Ascon») para Maria invocar como referência ao ligar para a certificadora — operação típica de cadeia indireta de constituição.</li>
+<li>Quando Maria propõe <strong>declarar abertamente o propósito real</strong> («quero abrir a empresa FJM»), Luciano <strong>corrige</strong>: que ela peça apenas o certificado digital pessoal — separando a etapa visível da etapa institucional.</li>
+<li>A <strong>FJM</strong> é uma das empresas posteriormente identificadas pelas advogadas (decisão judicial de 04·08·2025) como parte da rede patrimonial de Luciano que não retornou dados na busca SISBAJUD.</li>
+</ul>
+
+<h3>2.2 Cadastro de Maria na Trustee DTVM / Planner</h3>
+
+<div class="bomba">
+<div class="titulo-bomba">★ Peça-bomba 2 · Repetida duas vezes (04·08 e 17·08·2022)</div>
+<div class="dialogo">
+<div class="ts-head">4 de agosto de 2022 · 21:46 · também repetido em 17·08·2022 · 08:54</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">21:46</span>«Luciano, boa tarde! segue link para cadastro de sua esposa na <strong>planner</strong>»</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">21:46</span><span class="url">https://trusteedtvmonboarding.minicomws.com.br/contas/registrar/user/general</span></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">21:46</span>[anexo] <em>Guia para Abertura de Cadastro PF.pdf</em></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">21:46</span>[anexo] <em>Declaração da condição de Investidor Profissional_06.15.pdf</em></div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">21:46</span>tem que assinar também a ficha de investidor profissional</div>
+</div>
+</div>
+
+<p>O texto introdutório «Luciano, boa tarde!» revela que se trata de <strong>e-mail da Planner endereçado ao próprio Luciano</strong>, que ele redireciona via WhatsApp para Maria executar o cadastro. Em 21·09·2022 ele acompanha o andamento:</p>
+
+<div class="dialogo">
+<div class="ts-head">21 de setembro de 2022 · 14:48–50</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">14:48</span>No sistema da Planner, faltou você colocar o comprovante de residência.</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">14:49</span>[anexo] <em>Comprovante de Residência - ENEL - MARIA.pdf</em></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">14:50</span>Parece que colocou uma carta da Porto Seguro. Não serviu. Coloca esta conta de luz por favor.</div>
+</div>
+
+<p>Luciano dispõe das credenciais de Maria no sistema da Planner («faltou <em>você</em> colocar») e envia o documento correto pré-renomeado para ela substituir. Esta é a evidência direta da tese — confirmada apenas em novembro/2025 pelas advogadas — de que <strong>Luciano abriu a conta da Trustee/Planner em nome de Maria sem que ela tivesse autonomia operacional</strong>.</p>
+
+<h3>2.3 Abertura da conta BTG igualmente em nome de Maria</h3>
+
+<div class="bomba">
+<div class="titulo-bomba">★ Peça-bomba 3</div>
+<div class="dialogo">
+<div class="ts-head">22 de setembro de 2022 · 18:46–19:17</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">18:46</span>Estou abrindo uma conta no BTG, igual a da XP, pois tem alguns investimentos que são melhores lá. Pode assinar este questionário? Nada demais</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">18:47</span>[anexo] <em>1369 - Suitability - Perfil de Risco - PF_MB.pdf</em> (3 págs)</div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">19:16</span>Assinatura digital? E o que vc vai por lá?</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">19:17</span><strong>Você vai por dinheiro lá, parte do que está na XP</strong></div>
+</div>
+</div>
+
+<p>Três elementos:</p>
+<ul>
+<li>«<em>Estou abrindo uma conta no BTG</em>» — Luciano descreve a ação em primeira pessoa, embora a conta vá ser no <strong>nome de Maria</strong> (suitability «PF_MB» — PF Maria Bressan).</li>
+<li>«<em>Pode assinar este questionário?</em>» — execução pela esposa.</li>
+<li>«<em>Você vai por dinheiro lá, parte do que está na XP</em>» — confirma a operação de <strong>movimentação patrimonial</strong>: «dinheiro que está na XP» (provavelmente a conta XP onde estavam os R$ 3,67 MI em fev/2023) seria parcialmente realocado para o BTG.</li>
+</ul>
+
+</section>
+
+<!-- ============== 3. TRANSFERENCIA ============== -->
+<section id="transferencia" class="anchor">
+<h2><span class="numeracao">§ 03</span>Transferência ordenada de R$ 1,89 milhão (05·07·2022)</h2>
+
+<p>Vinte e oito dias após o pedido de Recuperação Judicial da Contax (07·06·2022), Luciano determina por WhatsApp a primeira grande movimentação documentada.</p>
+
+<div class="bomba">
+<div class="titulo-bomba">★ Peça-bomba 4 · A operação mais comprometedora</div>
+<div class="dialogo">
+<div class="ts-head">5 de julho de 2022</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">09:58</span>Me avisa a hora que for no banco?</div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">09:59</span>Pode ser as 14hs?</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">09:59</span>Pode</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">11:59</span><strong>Transfere 1.890.000</strong></div>
+<div class="linha m destaque"><span class="autor">Maria</span><span class="hora">13:46</span>A gerente está sabendo?</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">13:49</span><strong>Não.</strong></div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">13:49</span><strong>Mas não é saque, é só transferência, e pra uma conta sua. Então não tem problema</strong></div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">13:50</span>Já fiz</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">13:52</span>Deu certo. Obrigado!</div>
+</div>
+</div>
+
+<p>Análise da peça:</p>
+<ul>
+<li><strong>Valor</strong>: R$ 1.890.000 — magnitude próxima dos R$ 2 MI que Luciano alegaria estar na «sua parte» da partilha em 2024.</li>
+<li><strong>Datação</strong>: 28 dias após o pedido de RJ da Contax. Quatro semanas antes do início da operação Trustee/Planner.</li>
+<li><strong>Modalidade</strong>: «só transferência, e pra uma conta sua» — Luciano enquadra a operação como neutra <em>pelo fato de o destino ser uma conta de Maria</em>. A defesa antecipada («Então não tem problema») revela consciência de que a operação poderia ser questionada.</li>
+<li><strong>Sigilo</strong>: «A gerente está sabendo? — Não.» Manifestação explícita do <strong>desejo de ocultar a operação do gerente bancário</strong> — comportamento incompatível com movimentação patrimonial regular entre cônjuges sob comunhão.</li>
+</ul>
+
+<p>Esta única sequência de WhatsApp, autenticada por timestamps e autoria registrada, pode sustentar isoladamente a tese de dissimulação patrimonial — porque combina valor, momento (pós-RJ), opacidade declarada e execução pela esposa.</p>
+
+</section>
+
+<!-- ============== 4. ADMISSOES ============== -->
+<section id="admissoes" class="anchor">
+<h2><span class="numeracao">§ 04</span>Admissões diretas de Luciano sobre patrimônio</h2>
+
+<h3>4.1 «A empresa não vale nada»</h3>
+
+<div class="bomba">
+<div class="titulo-bomba">★ Peça-bomba 5 · 19·03·2024 · sequência de negociação</div>
+<div class="dialogo">
+<div class="ts-head">19 de março de 2024 · 21:39–47 · Luciano fazendo proposta de partilha</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">21:39</span>Fixei em 10k por mês, porque além disso pago todo o resto das crianças. [...] E não tem essa de carreira consolidada, <strong>não posso nem ter conta em banco ou seguro de carro no meu nome.</strong></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">21:40</span>Posso pagar os 14k mas por um tempo, até você se firmar no mercado.</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">21:41</span>Não vou me suicidar oferecendo algo que não consigo pagar e correr risco de ser preso.</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">21:45</span><strong>E não existem ações da empresa. As que existem estão lá na XP em seu nome. E a empresa não vale nada. Ninguém paga nada por ela.</strong> E eu não tenho mais vínculo, só os problemas que ficaram.</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">21:47</span>Você já está ficando com um ap de 4 milhões e mais 500 mil. <strong>Eu estou ficando com 2 milhões</strong> e a dívida do apartamento, que é de 400 mil. E ainda uma despesa fixa de 40k por mês. Pense com calma e não se iluda. Não existe nenhuma montanha de dinheiro</div>
+</div>
+</div>
+
+<p>Esta passagem agrega <strong>quatro admissões críticas em três minutos</strong>:</p>
+
+<table>
+<thead><tr><th style="width:25%;">Admissão</th><th>Citação literal</th><th>Implicação</th></tr></thead>
+<tbody>
+<tr>
+<td><strong>Operação por interposta pessoa</strong></td>
+<td>«não posso nem ter conta em banco ou seguro de carro no meu nome»</td>
+<td>Reconhecimento direto de que opera por nomes de terceiros (Maria, e provavelmente também GAD, Marechal, FJM).</td>
+</tr>
+<tr>
+<td><strong>Ações em nome de Maria</strong></td>
+<td>«As que existem estão lá na XP em seu nome»</td>
+<td>Reconhece que as ações estão tituladas em Maria — base para incluir esses ativos na partilha de comunhão.</td>
+</tr>
+<tr>
+<td><strong>«Empresa não vale nada»</strong></td>
+<td>«E a empresa não vale nada. Ninguém paga nada por ela.»</td>
+<td>Defesa antecipada de baixo valor da participação societária (presumivelmente Contax) — incompatível com a alegação simultânea de receita declarada de R$ 50k/mês via GAD e R$ 352 mil em 10 meses na Marechal.</td>
+</tr>
+<tr>
+<td><strong>Avaliação total: ~R$ 6,5 MI</strong></td>
+<td>«ap de 4 milhões + 500 mil + 2 milhões», com dívida de 400 mil</td>
+<td>Soma do patrimônio comum reconhecida pelo próprio Luciano: ≈ R$ 6,5 MI brutos (R$ 6,1 MI líquidos). Maior que os R$ 5 MI mencionados pela advogada em 13·02·2025.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>4.2 Outros valores absolutos confirmados por Luciano</h3>
+
+<table>
+<thead><tr><th style="width:140px;">Data</th><th>Citação literal</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>01·12·2023</td><td>«Aqui aparece o saldo em julho. Era 420 mil»</td><td><strong>R$ 420.000</strong> — Saldo XP em julho/2023 (data da separação de fato).</td></tr>
+<tr><td>04·03·2024</td><td>«Só nos últimos 6 meses te passei 225 mil»</td><td><strong>R$ 225.000</strong> — Total transferido a Maria entre set/2023 e mar/2024.</td></tr>
+<tr><td>04·03·2024</td><td>«este dinheiro que está na XP (2 milhões)»</td><td><strong>R$ 2.000.000</strong> — Saldo XP 1 em mar/2024 (antes do saque de R$ 543.869 por Maria).</td></tr>
+<tr><td>08·12·2023</td><td>«O clube vendeu 61 títulos em outubro a R$ 25 mil cada»</td><td><strong>R$ 25.000/título</strong> — Indicador de valor de mercado do título do Clube.</td></tr>
+<tr><td>19·03·2023</td><td>Envio de link de imóvel Somma Brooklin, AP11336</td><td><strong>R$ 2.800.000</strong> — Imóvel referencial no entorno do Brooklin/SP.</td></tr>
+<tr><td>21·08·2022</td><td>Negociação de veículo</td><td>R$ 105.800 (de R$ 111.000) por <strong>69.000 km</strong> — possível identificação de carro adicional.</td></tr>
+<tr><td>15·07·2025</td><td>«Você vendeu 60 mil reais em ações estes dias»</td><td><strong>R$ 60.000</strong> — Venda de ações por Maria em 2025 (reconhecida por Luciano).</td></tr>
+</tbody>
+</table>
+
+</section>
+
+<!-- ============== 5. AVALIACAO ============== -->
+<section id="avaliacao" class="anchor">
+<h2><span class="numeracao">§ 05</span>Avaliação do patrimônio total feita pelo próprio Luciano</h2>
+
+<p>Consolidando as menções de 04·03·2024 e 19·03·2024 (Luciano negociando informalmente uma proposta de acordo com Maria), o réu apresenta a seguinte composição:</p>
+
+<table>
+<thead><tr><th>Item</th><th>Valor reconhecido por Luciano</th><th>Titularidade</th></tr></thead>
+<tbody>
+<tr><td>Apartamento Michigan 1150, ap. 91 + vagas</td><td>R$ 4.000.000</td><td>Em nome de Luciano (a partilhar)</td></tr>
+<tr><td>«500 mil» adicionais a Maria</td><td>R$ 500.000</td><td>A acordar em pagamento</td></tr>
+<tr><td>«Dinheiro que está na XP» (XP 1)</td><td>R$ 2.000.000</td><td>Em nome de Maria mas movimentado por Luciano</td></tr>
+<tr><td>(–) Dívida do apartamento</td><td>(R$ 400.000)</td><td>Financiamento</td></tr>
+<tr style="background: var(--ambar-claro); font-weight: 700;"><td>Total bruto reconhecido</td><td>R$ 6.500.000</td><td>–</td></tr>
+<tr style="background: var(--ambar-claro); font-weight: 700;"><td>Total líquido reconhecido</td><td>R$ 6.100.000</td><td>–</td></tr>
+</tbody>
+</table>
+
+<div class="destaque">
+<h4>O que Luciano NÃO incluiu no cálculo dele</h4>
+<ul>
+<li>Conta BTG aberta por ele em set/2022 em nome de Maria (origem: «parte do que está na XP»).</li>
+<li>Conta Trustee DVTM aberta por ele em ago-out/2022 em nome de Maria.</li>
+<li>Conta Planner — fundos AG42, Planner Trustee, Mafra com aportes de 17·05·2022 totalizando ≈ R$ 11 MI entre todos os sócios.</li>
+<li>Conta BMP SCMEPP em nome próprio (admitida em 03·06·2024).</li>
+<li>Ações da Contax / Atma.</li>
+<li>Box de garagem 15º andar Ed. Garagem Automática Deodoro (R$ 20 mil avaliado).</li>
+<li>Título do Clube Pinheiros.</li>
+<li>Empresas GAD, Marechal, FJM (todas com receita declarada).</li>
+<li>Imóvel da matrícula 199.667 do 15° RGI (identificado em set/2025).</li>
+<li>«Empresa de agro» e «imóvel no Paraná» (referidos em vídeo de ago/2025).</li>
+<li>Coleção de carros antigos do pai falecido (potencial herança).</li>
+</ul>
+<p style="margin-top: 12px;">A omissão sistemática destes itens da «conta» que Luciano apresenta a Maria é, por si só, prova da estratégia de subavaliação do patrimônio comum para fins de negociação informal.</p>
+</div>
+
+</section>
+
+<!-- ============== 6. BMP ============== -->
+<section id="bmp" class="anchor">
+<h2><span class="numeracao">§ 06</span>Confirmação direta de conta no BMP SCMEPP</h2>
+
+<p>As advogadas só identificaram a BMP SCMEPP como instituição relevante em maio de 2025 (após Maria receber comprovante de pensão originado de lá). A Juíza deferiu ofício à BMP somente em 04·08·2025. Mas a confirmação direta da existência da conta vem do próprio Luciano em <strong>03·06·2024</strong>, em conversa rotineira sobre transferência:</p>
+
+<div class="bomba">
+<div class="titulo-bomba">★ Peça-bomba 6</div>
+<div class="dialogo">
+<div class="ts-head">3 de junho de 2024 · 16:12–16:34</div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">11:30</span>Você não pode mais usar as minhas contas. Então veja como fazer</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">11:31</span>Tudo bem. Era só essa mesma, não uso mais. Você pode transferir o dinheiro e a aplicação que tem nela para mim?</div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">16:12</span>Bressan, como faço para transferir pra vc? Para qual conta? <strong>Para onde você transferiu o $ da xp?</strong></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">16:32</span>Isso, essa mesma conta</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">16:33</span>Já está cadastrada no Itaú</div>
+<div class="linha l destaque"><span class="autor">Luciano</span><span class="hora">16:34</span><strong>Se colocar meu nome, vai aparecer uma no BMP Scmepp</strong></div>
+</div>
+</div>
+
+<p>Reconhecimento direto, em texto, da existência de conta em nome de Luciano no <strong>BMP SCMEPP Ltda</strong>. Quatorze meses antes do ofício judicial. A própria frase confirma também que ele havia anteriormente movimentado dinheiro da XP para algum destino que Maria não conhecia («Para onde você transferiu o $ da xp?»).</p>
+
+</section>
+
+<!-- ============== 7. CONTROLE ============== -->
+<section id="controle" class="anchor">
+<h2><span class="numeracao">§ 07</span>Padrão de controle dos acessos financeiros</h2>
+
+<p>O chat documenta de forma reiterada o padrão de assimetria informacional: Luciano controlava as senhas e tokens das contas em nome de Maria; Maria pedia repetidamente acesso aos próprios dados.</p>
+
+<table>
+<thead><tr><th style="width:150px;">Data</th><th>Quem pede</th><th>O que pede</th></tr></thead>
+<tbody>
+<tr><td>17·03·2023, 08:55</td><td>Maria → Luciano</td><td>«Bressan, minha conta está muito negativa. Posso movimentar a conta do itau? <strong>Se quiser me passar a senha eu uso de lá.</strong>»</td></tr>
+<tr><td>03·08·2023, 12:27</td><td>Maria → Luciano</td><td>«Pode me passar a planilha de gastos? Preciso do valor do ipva, iptu, condominio, vivo, e parcela do financiamentos.»</td></tr>
+<tr><td>04·08·2023, 17:38</td><td>Maria → Luciano</td><td>«Me passa o token que chegou no terra?»</td></tr>
+<tr><td>15·08·2023, 07:49</td><td>Maria → Luciano</td><td>«Pode me passar o valor do saldo do ap e quantos anos de fincanciamento ainda faltam?»</td></tr>
+<tr><td>13·09·2023, 10:40</td><td>Maria → Luciano</td><td>«Me passa por favor os tokens que chegaram no seu email?»</td></tr>
+<tr><td>13·09·2023, 17:39</td><td>Maria → Luciano</td><td>«Digita no prime? Ou me passa a senha?»</td></tr>
+<tr><td>16·05·2024, 12:22</td><td><strong>Luciano → Maria</strong></td><td>«Bom dia. <strong>Consegue me passar a senha e token da XP?</strong>» <em>(reversão: após Maria tomar o controle, Luciano pede o acesso de volta)</em></td></tr>
+<tr><td>27·05·2024, 17:53</td><td>Luciano → Maria</td><td>«Oi. Consegue me passar a senha da Porto Seguro (seguradora)?»</td></tr>
+<tr><td>27·06·2024, 10:06</td><td>Luciano → Maria</td><td>«ele está sendo cobrado em um cartão da Porto Seguro que está no seu nome. E <strong>eu não consigo mais acessar pra pagar</strong>.»</td></tr>
+</tbody>
+</table>
+
+<p>Em síntese: até março/2024, Luciano <strong>operava</strong> as contas tituladas por Maria; a partir de maio/2024, Luciano <strong>tenta retomar</strong> os acessos. O padrão de controle inverte-se exatamente no momento em que Maria abre a XP 2 e busca assessoria jurídica.</p>
+
+</section>
+
+<!-- ============== 8. PERDA-ACESSO ============== -->
+<section id="perda-acesso" class="anchor">
+<h2><span class="numeracao">§ 08</span>Quando Maria toma o controle (mar–jun·2024)</h2>
+
+<p>A janela de cinco meses entre o saque da XP 1 e a interrupção definitiva do acesso de Luciano está documentada quase em tempo real no chat. Esta seção cataloga o ponto exato em que cada movimento foi anunciado.</p>
+
+<h3>20·03·2024 — Anúncio da XP 2</h3>
+
+<div class="dialogo">
+<div class="ts-head">20 de março de 2024 · 16:03</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">16:03</span>Oi. Foi você? Se não, me avise porque é fraude [acompanhado de imagem]</div>
+<div class="linha m destaque"><span class="autor">Maria</span><span class="hora">16:03</span><strong>Estou na conta da xp. Vou abrir outra conta na xp mesmo e transferir uma parte do dinheiro para essa conta. Depois te devolvo o acesso. Só assim consigo movimentar o dinheiro, e não depender da sua boa vontade.</strong></div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">16:16</span>Precisamos anunciar o apartamento para vender para dividir o dinheiro.</div>
+</div>
+
+<p>Marca o momento exato em que Maria notifica Luciano da operação que executaria 7 dias depois (saque de R$ 543.869,79 da XP 1 em 27·03·2024, conforme depois reconstruído pelas advogadas em fev/2025). A frase «<em>não depender da sua boa vontade</em>» caracteriza a relação de dependência financeira até então. Note-se que a reação imediata de Luciano é propor a venda do apartamento — provável estratégia defensiva para liquidar o ativo mais visível antes que Maria buscasse a partilha formal.</p>
+
+<h3>03·06·2024 — Maria revoga formalmente o acesso</h3>
+
+<div class="dialogo">
+<div class="ts-head">3 de junho de 2024 · 11:30–11:34</div>
+<div class="linha m destaque"><span class="autor">Maria</span><span class="hora">11:30</span><strong>Você não pode mais usar as minhas contas.</strong> Então veja como fazer</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">11:31</span>Tudo bem. <strong>Era só essa mesma, não uso mais.</strong> Você pode transferir o dinheiro e a aplicação que tem nela para mim?</div>
+<div class="linha m"><span class="autor">Maria</span><span class="hora">11:33</span>Prefiro falar com os advogados primeiro. Pode ser?</div>
+<div class="linha l"><span class="autor">Luciano</span><span class="hora">11:34</span>Claro</div>
+</div>
+
+<p>Luciano responde com a frase <em>«Era só essa mesma, não uso mais»</em> — afirmação que, em vista das contas posteriormente descobertas (BMP SCMEPP em nome próprio, Trustee DVTM em nome de Maria, Planner em nome dos dois, BTG em nome de Maria), é objetivamente falsa.</p>
+
+</section>
+
+<!-- ============== 9. TIMELINE ============== -->
+<section id="timeline" class="anchor">
+<h2><span class="numeracao">§ 09</span>Linha do tempo consolidada</h2>
+
+<ul class="timeline">
+<li class="critico">
+<div class="data">17·05·2022</div>
+Data uniforme dos extratos de aporte em AG42 + Mafra (≈ R$ 11 MI entre todos os sócios) — identificado pelas advogadas em nov·2025.
+</li>
+<li class="critico">
+<div class="data">07·06·2022</div>
+Protocolo do pedido de Recuperação Judicial da Contax.
+</li>
+<li class="critico">
+<div class="data">05·07·2022 · 11:59</div>
+Luciano: «Transfere 1.890.000» — Maria executa às 13:50.
+</li>
+<li class="critico">
+<div class="data">04·08·2022 · 21:46</div>
+Luciano envia 1ª vez os links de cadastro Trustee/Planner + PDFs.
+</li>
+<li class="critico">
+<div class="data">16·08·2022 · 14:51 → 16:09</div>
+Sequência FJM: Luciano fornece contato da Hermes Certificadora + nome do intermediário Ronado Arsego (Ascon) + instrui Maria a não mencionar a FJM no contato.
+</li>
+<li class="critico">
+<div class="data">17·08·2022 · 08:54</div>
+Luciano repete o envio dos links Trustee/Planner.
+</li>
+<li class="critico">
+<div class="data">21·09·2022 · 14:48</div>
+Luciano acompanha o cadastro: «No sistema da Planner, faltou você colocar o comprovante de residência.»
+</li>
+<li class="critico">
+<div class="data">22·09·2022 · 18:46</div>
+Abertura BTG: «Estou abrindo uma conta no BTG, igual a da XP... Você vai por dinheiro lá, parte do que está na XP.»
+</li>
+<li>
+<div class="data">~julho·2023</div>
+Separação de fato (Luciano declara em 01·12·2023 que «a advogada colocou a data da separação como julho»).
+</li>
+<li>
+<div class="data">01·12·2023 · 13:51</div>
+Luciano: «o saldo em julho. Era 420 mil» (saldo XP referência julho/2023).
+</li>
+<li>
+<div class="data">08·12·2023 · 11:55</div>
+Luciano sobre venda de títulos do Clube: «vendeu 61 títulos em outubro a R$ 25 mil cada».
+</li>
+<li>
+<div class="data">04·03·2024 · 16:22</div>
+Luciano propõe acordo informal: R$ 500 mil + apartamento (R$ 4,5 MI) para Maria; R$ 2 MI + dívida para ele.
+</li>
+<li class="critico">
+<div class="data">19·03·2024 · 21:45</div>
+Luciano: «não posso nem ter conta em banco ou seguro de carro no meu nome» + «as ações estão na XP em seu nome» + «a empresa não vale nada».
+</li>
+<li class="critico">
+<div class="data">20·03·2024 · 16:03</div>
+Maria notifica Luciano: «Vou abrir outra conta na xp mesmo e transferir uma parte do dinheiro» → execução do saque de R$ 543.869,79 em 27·03·2024.
+</li>
+<li class="critico">
+<div class="data">03·06·2024 · 11:30 e 16:34</div>
+Maria revoga acesso. Luciano admite: «Se colocar meu nome, vai aparecer uma no BMP Scmepp.»
+</li>
+<li>
+<div class="data">16·05·2024 · 12:22</div>
+Luciano tenta retomar acesso à XP: «Consegue me passar a senha e token da XP?»
+</li>
+<li>
+<div class="data">19·08·2024 · 13:28</div>
+Luciano: «tem o cartão do Itaú que eu transferi o dinheiro».
+</li>
+<li>
+<div class="data">15·07·2025 · 16:00</div>
+Confronto sobre IPTU atrasado: Luciano questiona Maria: «Você vendeu 60 mil reais em ações estes dias, para onde foi o dinheiro?»
+</li>
+<li>
+<div class="data">03·12·2025 · 11:13</div>
+Luciano cobra Maria pelo IPTU atrasado de 2024 (R$ 4.151,72), alegando que o nome dele está no Serasa.
+</li>
+</ul>
+
+</section>
+
+<!-- ============== 10. CRUZAMENTO ============== -->
+<section id="cruzamento" class="anchor">
+<h2><span class="numeracao">§ 10</span>Cruzamento com os outros chats</h2>
+
+<table>
+<thead><tr><th style="width:30%;">Achado deste chat</th><th>Como reforça o material já existente</th></tr></thead>
+<tbody>
+<tr>
+<td>04·08·2022 — Luciano envia link Trustee/Planner para cadastro de Maria</td>
+<td><strong>Resolve definitivamente</strong> a pendência levantada pelas advogadas em 04·11·2025 («Ele também abriu uma conta em seu nome na Trustee»). O onboarding foi orquestrado por ele, com instruções operacionais em texto.</td>
+</tr>
+<tr>
+<td>22·09·2022 — Luciano abre conta BTG em nome de Maria</td>
+<td>O <strong>BTG nunca apareceu</strong> no chat das advogadas como conta de Maria — apenas como instituição mencionada em diligências. Este chat traz a primeira documentação direta da operação.</td>
+</tr>
+<tr>
+<td>16·08·2022 — Luciano instrui sobre a abertura da FJM e indica Ronado Arsego/Ascon</td>
+<td>A FJM aparecia apenas na decisão judicial de 04·08·2025 como instituição financeira na lista de ofícios. Este achado <strong>caracteriza a FJM como empresa operacional</strong>, com indício de uso de intermediário (Ronado Arsego).</td>
+</tr>
+<tr>
+<td>05·07·2022 — Transferência ordenada de R$ 1,89 MI «sem a gerente saber»</td>
+<td>Bate cronologicamente com os aportes de 17·05·2022 nos fundos AG42+Mafra: <strong>21 dias entre o aporte e a RJ</strong>; <strong>28 dias depois da RJ</strong>, mais uma operação grande.</td>
+</tr>
+<tr>
+<td>19·03·2024 — «Não posso ter conta em banco no meu nome»</td>
+<td>Admissão da operação por interposta pessoa que sustenta toda a tese da rede GAD/Marechal/FJM/Atma como anteparo patrimonial. <strong>Não foi necessário inferir — Luciano disse</strong>.</td>
+</tr>
+<tr>
+<td>19·03·2024 — Patrimônio reconhecido em ≈ R$ 6,5 MI</td>
+<td>Maior que os R$ 5 MI cogitados pela advogada para cálculo de custas (13·02·2025), e suficiente para sustentar pedido de partilha sobre montante substancial.</td>
+</tr>
+<tr>
+<td>03·06·2024 — Confirmação direta de conta no BMP SCMEPP</td>
+<td>Antecipa em 14 meses a identificação feita pelas advogadas (maio·2025).</td>
+</tr>
+<tr>
+<td>20·03·2024 — «Não depender da sua boa vontade»</td>
+<td>Marca cronológica precisa da virada de controle. Datação que pode ser citada literalmente em peça processual sobre coerção financeira.</td>
+</tr>
+</tbody>
+</table>
+
+<div class="destaque">
+<h4>Recomendações operacionais</h4>
+<ol>
+<li><strong>Os 334 PDFs trocados neste chat</strong> ainda não foram visualizados (apenas referenciados pelo nome). Anexos críticos: <em>Guia para Abertura de Cadastro PF.pdf</em>, <em>Declaração da condição de Investidor Profissional_06.15.pdf</em>, <em>Comprovante de Residência - ENEL - MARIA.pdf</em>, <em>1369 - Suitability - Perfil de Risco - PF_MB.pdf</em>, e os <em>ComprovanteSantander-*.pdf</em>. Re-exportar o chat com mídia incluída permite identificar carimbos institucionais, números de protocolo e datas exatas das operações.</li>
+<li>Investigar <strong>Ronado Arsego / Ascon</strong> como possível intermediário no esquema (não aparece em nenhum dos outros chats).</li>
+<li>Verificar o <strong>imóvel referencial Somma Brooklin AP11336</strong> (Rua Arizona 460) — Luciano enviou anúncio em 19·03·2023; pode ter sido locação ou compra dele.</li>
+<li>Levantar com a <strong>Hermes Certificadora</strong> o registro de emissão do e-CPF A-1 em nome de Maria em agosto/2022 — datação dos certificados pode mostrar uso indireto para operações em PJ.</li>
+<li>Cruzar a venda dos «61 títulos do Clube em outubro a R$ 25 mil cada» (citação de Luciano em 08·12·2023) com a venda do título do casal — caso o título tenha sido vendido em data próxima, o valor de mercado está documentado.</li>
+</ol>
+</div>
+
+</section>
+
+<footer class="rodape">
+<p><strong>Análise gerada em</strong> 10·05·2026 a partir do arquivo <code>_chat.txt</code> exportado do WhatsApp do chat direto Maria Ferres ↔ Luciano Bressan.</p>
+<p>Documento de trabalho interno. Recorte: jan·2022 a abr·2026 (8.644 mensagens). Citações reproduzem o texto literal do exportado. Os PDFs e mídias referenciados não foram visualizados — apenas seus nomes constam no .txt; sua autenticação exige acesso ao arquivo original. Datas no padrão DD·MM·AAAA.</p>
+</footer>
+
+</div>
+</body>
+</html>
